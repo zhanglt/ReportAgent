@@ -1,5 +1,1178 @@
 {
-  "schema_data": "【DB_ID】 \n【Schema】\n# Table: dbo.ST_STBPRP_B\n[\n(STCD:CHAR, Primary Key, Examples: [4021UL01, 4021UL02, 4021UL03]),\n(STNM:CHAR, Examples: [吉迈                          ]),\n(RVNM:CHAR, Examples: [阿洛沟                        ]),\n(HNNM:CHAR, Examples: [安宁河                        ]),\n(BSNM:CHAR, Examples: [黄河                          ]),\n(LGTD:NUMERIC, Examples: [99.65, 101.04425, 102.082722]),\n(LTTD:NUMERIC, Examples: [33.76, 33.774667, 33.960833]),\n(STLC:CHAR),\n(ADDVCD:CHAR, Examples: [      , 405900, 500000]),\n(DTMNM:CHAR, Examples: [85高程          , 假定基面        , 黄海            ]),\n(DTMEL:NUMERIC, Examples: [3954.978, 3636.077, 3419.697]),\n(DTPR:NUMERIC, Examples: [-1.0, 0.53, 0.02]),\n(STTP:CHAR, Examples: [ZQ, ZZ, PP]),\n(FRGRD:CHAR, Examples: [1, 5, 3]),\n(ESSTYM:CHAR, Examples: [195806, 198708, 195901]),\n(BGFRYM:CHAR, Examples: [195901, 198801, 197911]),\n(ATCUNIT:CHAR, Examples: [黄委水文            , 四川水文            , 四川防办            ]),\n(ADMAUTH:CHAR, Examples: [西宁水文水资源勘测局, 阿坝水文            , 阿坝州水务局        ]),\n(LOCALITY:CHAR, Examples: [黄委水文  , 四川水文  , 青海水文  ]),\n(STBK:CHAR, Examples: [2,  , 1]),\n(STAZT:NUMERIC, Examples: [225.0, 45.0, 270.0]),\n(DSTRVM:NUMERIC, Examples: [4869.0, 4618.0, 4284.0]),\n(DRNA:NUMERIC, Examples: [45019.0, 59655.0, 86048.0]),\n(PHCD:CHAR, Examples: [      , ab    , abc   ]),\n(USFL:CHAR, Examples: [ , 1, 0]),\n(COMMENTS:VARCHAR, Examples: [2023年1月统一为国家85基面。河流流域面积2.76万平方公里，其中市内3620平方公里。]),\n(MODITIME:DATETIME, Examples: [2024-05-21 10:10:36.353000])\n]\n# Table: dbo.ST_TABLE_D\n[\n(TABID:CHAR, Primary Key, Examples: [ST_ADDVCD_D         , ST_ASTROTD_F        , ST_DAYEV_R          ]),\n(TABNO:CHAR, Examples: [ST_001_0001, ST_001_0002, ST_001_0003]),\n(TABCN:VARCHAR, Examples: [暴雨加报表, 泵站水情表, 泵站水情极值表]),\n(TABEN:VARCHAR),\n(EXCHFL:CHAR, Examples: [0, 1]),\n(MODITIME:DATETIME, Examples: [2022-07-12 13:25:43.740000])\n]\n# Table: dbo.ST_FORECAST_F\n[\n(STCD:CHAR, Primary Key, Examples: [40100180, 40100250, 40200500]),\n(UNITNAME:CHAR, Primary Key, Examples: [黄委                          ]),\n(PLCD:CHAR, Primary Key, Examples: [管理员              , 预报中心            , 1                   ]),\n(FYMDH:DATETIME, Primary Key, Examples: [2025-06-12 08:00:00]),\n(IYMDH:DATETIME, Primary Key, Examples: [2025-06-12 09:21:07]),\n(YMDH:DATETIME, Primary Key, Examples: [2025-06-12 08:00:00]),\n(Z:NUMERIC, Examples: [1820.34, 1820.37, 1820.39]),\n(Q:NUMERIC, Examples: [503.0, 473.0, 458.0])\n]\n# Table: dbo.ST_ADDVCD_D\n[\n(ADDVCD:CHAR, Primary Key, Examples: [500000, 500101, 500102]),\n(ADDVNM:VARCHAR, Examples: [重庆市, 渝-万州区, 渝-涪陵区]),\n(COMMENTS:VARCHAR),\n(MODITIME:DATETIME, Examples: [2019-04-10 13:00:59.217000])\n]\n# Table: dbo.ST_PPTN_R\n[\n(STCD:CHAR, Primary Key, Examples: [        , 00000001, 00000011]),\n(TM:DATETIME, Primary Key, Examples: [1899-12-30 00:00:00]),\n(DRP:NUMERIC, Examples: [0.4, 13.5, 7.0]),\n(INTV:NUMERIC, Examples: [24.0, 0.0, 1.0]),\n(PDR:NUMERIC, Examples: [0.55, 0.0, 0.24]),\n(DYP:NUMERIC, Examples: [0.0, 2.4, 9.2]),\n(WTH:CHAR, Examples: [9, 8, 7])\n]\n# Table: dbo.ST_RIVER_R\n[\n(STCD:CHAR, Primary Key, Examples: [        , 00000011, 00704701]),\n(TM:DATETIME, Primary Key, Examples: [1899-12-30 00:00:00]),\n(Z:NUMERIC, Examples: [1650.89, 2.22, 12.6]),\n(Q:NUMERIC, Examples: [123.0, 194.0, 995.0]),\n(XSA:NUMERIC, Examples: [0.0, 0.05, 0.136]),\n(XSAVV:NUMERIC, Examples: [-2.39, -2.38, -2.01]),\n(XSMXV:NUMERIC, Examples: [0.0, 0.01, 0.27]),\n(FLWCHRCD:CHAR, Examples: [ , 1, 2]),\n(WPTN:CHAR, Examples: [ , 0, 1]),\n(MSQMT:CHAR, Examples: [1, 3,  ]),\n(MSAMT:CHAR, Examples: [ , 0, 1]),\n(MSVMT:CHAR, Examples: [ , 0, 1])\n]\n# Table: dbo.ST_FIELD_D\n[\n(TABID:CHAR, Primary Key, Examples: [ST_ADDVCD_D         , ST_ASTROTD_F        , ST_DAYEV_R          ]),\n(FLID:CHAR, Primary Key, Examples: [ADDVCD              , ADDVNM              , COMMENTS            ]),\n(FLSID:NUMERIC, Examples: [1.0, 2.0, 3.0]),\n(FLCN:VARCHAR, Examples: [行政区划码, 行政区划名, 备注]),\n(FLEN:VARCHAR, Examples: [administration division code]),\n(FLTL:VARCHAR, Examples: [CHAR(6), VARCHAR(50), VARCHAR(200)]),\n(NLAT:CHAR, Examples: [N,  ]),\n(UNNM:VARCHAR, Examples: [米, 毫米, 立方米每秒]),\n(FCHSC:CHAR, Examples: [                    ,  @、A到Z            , 80～10000           ]),\n(EUFL:CHAR, Examples: [ , 1]),\n(PKAT:CHAR, Examples: [1,  , 2]),\n(MODITIME:DATETIME, Examples: [2022-07-12 13:25:45.413000])\n]\n# Table: dbo.ST_RVFCCH_B\n[\n(STCD:CHAR, Primary Key, Examples: [        , 40200600, 402HU001]),\n(LDKEL:NUMERIC, Examples: [1998.38, 1077.59, 2236.85]),\n(RDKEL:NUMERIC, Examples: [1998.26, 1075.98, 2236.8]),\n(WRZ:NUMERIC, Examples: [3434.93, 3541.43, 1186.0]),\n(WRQ:NUMERIC, Examples: [0.0, 198.0, 92.3]),\n(GRZ:NUMERIC, Examples: [3435.68, 3541.81, 1188.0]),\n(GRQ:NUMERIC, Examples: [0.0, 284.0, 119.0]),\n(FLPQ:NUMERIC),\n(OBHTZ:NUMERIC, Examples: [3436.892, 3530.47, 1002.07]),\n(OBHTZTM:DATETIME, Examples: [2018-07-13 00:00:00]),\n(IVHZ:NUMERIC, Examples: [1338.03, 368.96, 289.27]),\n(IVHZTM:DATETIME, Examples: [2020-08-16 00:00:00]),\n(OBMXQ:NUMERIC, Examples: [359.0, 3860.0, 12200.0]),\n(OBMXQTM:DATETIME, Examples: [2018-07-13 12:00:00]),\n(IVMXQ:NUMERIC, Examples: [549.0, 54000.0, 1360.0]),\n(IVMXQTM:DATETIME, Examples: [1918-01-01 12:00:00]),\n(HMXS:NUMERIC),\n(HMXSTM:DATETIME),\n(HMXAVV:NUMERIC),\n(HMXAVVTM:DATETIME),\n(HLZ:NUMERIC, Examples: [3523.33, 1063.6, 2228.76]),\n(HLZTM:DATETIME, Examples: [1957-01-22 00:00:00]),\n(HMNQ:NUMERIC, Examples: [26.9, 0.0, 7.2]),\n(HMNQTM:DATETIME, Examples: [1996-01-01 00:00:00]),\n(TAZ:NUMERIC, Examples: [542.45, 467.8]),\n(TAQ:NUMERIC, Examples: [1670.0, 1230.0]),\n(LAZ:NUMERIC, Examples: [335.3, 1300.96, 581.12]),\n(LAQ:NUMERIC, Examples: [50.8, 102.0, 98.0]),\n(SFZ:NUMERIC, Examples: [542.45, 467.8]),\n(SFQ:NUMERIC, Examples: [1670.0, 1230.0]),\n(MODITIME:DATETIME, Examples: [2012-11-28 16:49:40])\n]\n# Table: dbo.ST_HIWRCH_B\n[\n(stcd:VARCHAR, Primary Key, Examples: [40200600, 402HU001, 402HU005]),\n(hiwrty:VARCHAR, Primary Key, Examples: [1, 0]),\n(hiwrch:VARCHAR, Primary Key, Examples: [1, 0]),\n(wrstaatr:VARCHAR, Examples: [01, 00]),\n(buwr:DECIMAL, Examples: [3434.39, 178.0, 3541.29]),\n(yewr:DECIMAL, Examples: [3434.59, 198.0, 1.34]),\n(ogwr:DECIMAL, Examples: [3435.47, 284.0, 1.072]),\n(rdwr:DECIMAL, Examples: [3436.02, 337.0, 0.804]),\n(moditime:TIMESTAMP, Examples: [b'\\x00\\x00\\x00\\x00\\x00X\\x16\\x01'])\n]",
-  "timestamp": 1760883364,
+  "schema_data": "【DB_ID】 \n【Schema】\n# Table: businessdb.ST_TABLE_D, 表结构字典\n[\n(TABID:VARCHAR, 表标识，即业务表名, Primary Key),\n(TABNO:VARCHAR, 表编号),\n(TABCN:VARCHAR, 表中文名称),\n(TABEN:VARCHAR, 表英文名称),\n(EXCHFL:CHAR, 交换标志),\n(MODITIME:DATETIME, 最新修改时间)\n]\n# Table: businessdb.ST_PPTN_R, 降水量\n[\n(STCD:CHAR, 测站编码, Primary Key),\n(TM:DATETIME, 降水量截止时间, Primary Key),\n(DRP:DECIMAL, 时段降水量，mm),\n(INTV:DECIMAL, 时段长，HH.NN，NN 表示分钟而非十进制小时),\n(PDR:DECIMAL, 降水历时，HH.NN),\n(DYP:DECIMAL, 日降水量，mm),\n(WTH:CHAR, 天气：5雪、6雨夹雪、7雨、8阴、9晴),\n(GGMD:CHAR, 观测方式：0或空为自动，1为人工，补充自字段文档)\n]\n# Table: businessdb.ST_FORECAST_F, 水情预报成果\n[\n(STCD:CHAR, 测站编码, Primary Key),\n(UNITNAME:VARCHAR, 预报单位名称, Primary Key),\n(PLCD:VARCHAR, 预报方案或发布标识，按业务约定填写, Primary Key),\n(FYMDH:DATETIME, 依据时间, Primary Key),\n(IYMDH:DATETIME, 发布时间, Primary Key),\n(YMDH:DATETIME, 预报发生时间, Primary Key),\n(Z:DECIMAL, 预报水位，m),\n(Q:DECIMAL, 预报流量，m3/s)\n]\n# Table: businessdb.ST_FIELD_D, 字段结构字典\n[\n(TABID:VARCHAR, 所属表标识, Primary Key),\n(FLID:VARCHAR, 字段标识，即字段名, Primary Key),\n(FLSID:DECIMAL, 字段顺序号),\n(FLCN:VARCHAR, 字段中文名称),\n(FLEN:VARCHAR, 字段英文名称),\n(FLTL:VARCHAR, 字段类型及长度描述),\n(NLAT:CHAR, 空值属性标志),\n(UNNM:VARCHAR, 计量单位名称),\n(FCHSC:VARCHAR, 字段取值范围描述),\n(EUFL:CHAR, 交换使用标志),\n(PKAT:CHAR, 主键属性或主键顺序标志),\n(MODITIME:DATETIME, 最新修改时间)\n]\n# Table: businessdb.ST_ADDVCD_D, 行政区域代码\n[\n(ADDVCD:CHAR, 行政区划代码，保留前导零, Primary Key),\n(ADDVNM:VARCHAR, 行政区划名称),\n(COMMENTS:VARCHAR, 备注),\n(MODITIME:DATETIME, 最新修改时间)\n]\n# Table: businessdb.ST_RVFCCH_B, 河道站防洪指标\n[\n(STCD:CHAR, 测站编码, Primary Key),\n(LDKEL:DECIMAL, 左岸堤顶高程，m),\n(RDKEL:DECIMAL, 右岸堤顶高程，m),\n(WRZ:DECIMAL, 警戒水位，m),\n(WRQ:DECIMAL, 警戒流量，m3/s),\n(GRZ:DECIMAL, 保证水位，m),\n(GRQ:DECIMAL, 保证流量，m3/s),\n(FLPQ:DECIMAL, 平滩流量，m3/s),\n(OBHTZ:DECIMAL, 实测最高水位，m),\n(OBHTZTM:DATETIME, 实测最高水位发生时间),\n(IVHZ:DECIMAL, 调查最高水位，m),\n(IVHZTM:DATETIME, 调查最高水位发生时间),\n(OBMXQ:DECIMAL, 实测最大流量，m3/s),\n(OBMXQTM:DATETIME, 实测最大流量发生时间),\n(IVMXQ:DECIMAL, 调查最大流量，m3/s),\n(IVMXQTM:DATETIME, 调查最大流量发生时间),\n(HMXS:DECIMAL, 历史最大含沙量，kg/m3),\n(HMXSTM:DATETIME, 历史最大含沙量发生时间),\n(HMXAVV:DECIMAL, 历史最大断面平均流速，m/s),\n(HMXAVVTM:DATETIME, 历史最大断面平均流速发生时间),\n(HLZ:DECIMAL, 历史最低水位，m),\n(HLZTM:DATETIME, 历史最低水位发生时间),\n(HMNQ:DECIMAL, 历史最小流量，m3/s),\n(HMNQTM:DATETIME, 历史最小流量发生时间),\n(TAZ:DECIMAL, 多年平均水位，m),\n(TAQ:DECIMAL, 多年平均流量，m3/s),\n(LAZ:DECIMAL, 多年平均最低水位，m),\n(LAQ:DECIMAL, 多年平均最小流量，m3/s),\n(SFZ:DECIMAL, 安全泄量相应水位，m),\n(SFQ:DECIMAL, 安全泄量，m3/s),\n(MODITIME:DATETIME, 最新修改时间)\n]\n# Table: businessdb.ST_RIVER_R, 河道水情\n[\n(STCD:CHAR, 测站编码, Primary Key),\n(TM:DATETIME, 水情发生时间, Primary Key),\n(Z:DECIMAL, 水位，m),\n(Q:DECIMAL, 流量，m3/s),\n(XSA:DECIMAL, 断面过水面积，m2),\n(XSAVV:DECIMAL, 断面平均流速，m/s),\n(XSMXV:DECIMAL, 断面最大流速，m/s),\n(FLWCHRCD:CHAR, 水情特征：1干涸、2断流、3流向不定、4逆流、5起涨、6洪峰),\n(WPTN:CHAR, 水势代码),\n(MSQMT:CHAR, 流量测法代码),\n(MSAMT:CHAR, 面积测法代码),\n(MSVMT:CHAR, 流速测法代码)\n]\n# Table: businessdb.ST_STBPRP_B, 测站基本属性\n[\n(STCD:CHAR, 测站编码, Primary Key),\n(STNM:VARCHAR, 测站名称),\n(RVNM:VARCHAR, 河流名称),\n(HNNM:VARCHAR, 水系名称),\n(BSNM:VARCHAR, 流域名称),\n(LGTD:DECIMAL, 经度，度),\n(LTTD:DECIMAL, 纬度，度),\n(STLC:VARCHAR, 站址),\n(ADDVCD:CHAR, 行政区划代码，未知时填 NULL),\n(DTMNM:VARCHAR, 基面名称),\n(DTMEL:DECIMAL, 基面高程，m),\n(DTPR:DECIMAL, 基面修正值，m),\n(STTP:CHAR, 测站类型代码),\n(FRGRD:CHAR, 报汛等级代码),\n(ESSTYM:CHAR, 建站年月，YYYYMM),\n(BGFRYM:CHAR, 始报年月，YYYYMM),\n(ATCUNIT:VARCHAR, 隶属单位),\n(ADMAUTH:VARCHAR, 管理单位),\n(LOCALITY:VARCHAR, 地方管理或归属信息),\n(STBK:CHAR, 测站岸别代码),\n(STAZT:DECIMAL, 测站方位，度),\n(DSTRVM:DECIMAL, 至河口距离，km),\n(DRNA:DECIMAL, 集水面积，km2),\n(PHCD:VARCHAR, 地形代码),\n(USFL:CHAR, 使用标志),\n(COMMENTS:VARCHAR, 备注),\n(MODITIME:DATETIME, 最新修改时间),\n(RVCD:VARCHAR, 河流代码，补充自字段文档)\n]\n# Table: businessdb.ST_HIWRCH_B, 水情预警指标\n[\n(STCD:CHAR, 测站编码, Primary Key),\n(HIWRTY:CHAR, 预警类型：0洪水、1干旱, Primary Key),\n(HIWRCH:CHAR, 预警指标：0水位、1流量、2水量, Primary Key),\n(WRSTAATR:CHAR, 统计标志：00瞬时、01一天、10十天),\n(BUWR:DECIMAL, 蓝色预警阈值；单位随指标为m、m3/s或m3),\n(YEWR:DECIMAL, 黄色预警阈值),\n(OGWR:DECIMAL, 橙色预警阈值),\n(RDWR:DECIMAL, 红色预警阈值),\n(MODITIME:DATETIME, 最新修改时间，不使用 SQL Server rowversion)\n]\n【Foreign keys】\nST_PPTN_R.STCD=ST_STBPRP_B.STCD\nST_FORECAST_F.STCD=ST_STBPRP_B.STCD\nST_FIELD_D.TABID=ST_TABLE_D.TABID\nST_RVFCCH_B.STCD=ST_STBPRP_B.STCD\nST_RIVER_R.STCD=ST_STBPRP_B.STCD\nST_STBPRP_B.ADDVCD=ST_ADDVCD_D.ADDVCD\nST_HIWRCH_B.STCD=ST_STBPRP_B.STCD",
+  "mschema_dump": {
+    "db_id": "",
+    "schema": "businessdb",
+    "tables": {
+      "ST_TABLE_D": {
+        "fields": {
+          "TABID": {
+            "type": "VARCHAR(64) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": true,
+            "nullable": false,
+            "default": null,
+            "autoincrement": false,
+            "comment": "表标识，即业务表名",
+            "examples": []
+          },
+          "TABNO": {
+            "type": "VARCHAR(32) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "表编号",
+            "examples": []
+          },
+          "TABCN": {
+            "type": "VARCHAR(200) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "表中文名称",
+            "examples": []
+          },
+          "TABEN": {
+            "type": "VARCHAR(200) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "表英文名称",
+            "examples": []
+          },
+          "EXCHFL": {
+            "type": "CHAR(1) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "交换标志",
+            "examples": []
+          },
+          "MODITIME": {
+            "type": "DATETIME",
+            "primary_key": false,
+            "nullable": false,
+            "default": "CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+            "autoincrement": false,
+            "comment": "最新修改时间",
+            "examples": []
+          }
+        },
+        "examples": [],
+        "comment": "表结构字典"
+      },
+      "ST_PPTN_R": {
+        "fields": {
+          "STCD": {
+            "type": "CHAR(8) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": true,
+            "nullable": false,
+            "default": null,
+            "autoincrement": false,
+            "comment": "测站编码",
+            "examples": []
+          },
+          "TM": {
+            "type": "DATETIME",
+            "primary_key": true,
+            "nullable": false,
+            "default": null,
+            "autoincrement": false,
+            "comment": "降水量截止时间",
+            "examples": []
+          },
+          "DRP": {
+            "type": "DECIMAL(12, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "时段降水量，mm",
+            "examples": []
+          },
+          "INTV": {
+            "type": "DECIMAL(8, 2)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "时段长，HH.NN，NN 表示分钟而非十进制小时",
+            "examples": []
+          },
+          "PDR": {
+            "type": "DECIMAL(8, 2)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "降水历时，HH.NN",
+            "examples": []
+          },
+          "DYP": {
+            "type": "DECIMAL(12, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "日降水量，mm",
+            "examples": []
+          },
+          "WTH": {
+            "type": "CHAR(1) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "天气：5雪、6雨夹雪、7雨、8阴、9晴",
+            "examples": []
+          },
+          "GGMD": {
+            "type": "CHAR(1) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "观测方式：0或空为自动，1为人工，补充自字段文档",
+            "examples": []
+          }
+        },
+        "examples": [],
+        "comment": "降水量"
+      },
+      "ST_FORECAST_F": {
+        "fields": {
+          "STCD": {
+            "type": "CHAR(8) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": true,
+            "nullable": false,
+            "default": null,
+            "autoincrement": false,
+            "comment": "测站编码",
+            "examples": []
+          },
+          "UNITNAME": {
+            "type": "VARCHAR(100) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": true,
+            "nullable": false,
+            "default": null,
+            "autoincrement": false,
+            "comment": "预报单位名称",
+            "examples": []
+          },
+          "PLCD": {
+            "type": "VARCHAR(32) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": true,
+            "nullable": false,
+            "default": null,
+            "autoincrement": false,
+            "comment": "预报方案或发布标识，按业务约定填写",
+            "examples": []
+          },
+          "FYMDH": {
+            "type": "DATETIME",
+            "primary_key": true,
+            "nullable": false,
+            "default": null,
+            "autoincrement": false,
+            "comment": "依据时间",
+            "examples": []
+          },
+          "IYMDH": {
+            "type": "DATETIME",
+            "primary_key": true,
+            "nullable": false,
+            "default": null,
+            "autoincrement": false,
+            "comment": "发布时间",
+            "examples": []
+          },
+          "YMDH": {
+            "type": "DATETIME",
+            "primary_key": true,
+            "nullable": false,
+            "default": null,
+            "autoincrement": false,
+            "comment": "预报发生时间",
+            "examples": []
+          },
+          "Z": {
+            "type": "DECIMAL(12, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "预报水位，m",
+            "examples": []
+          },
+          "Q": {
+            "type": "DECIMAL(16, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "预报流量，m3/s",
+            "examples": []
+          }
+        },
+        "examples": [],
+        "comment": "水情预报成果"
+      },
+      "ST_FIELD_D": {
+        "fields": {
+          "TABID": {
+            "type": "VARCHAR(64) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": true,
+            "nullable": false,
+            "default": null,
+            "autoincrement": false,
+            "comment": "所属表标识",
+            "examples": []
+          },
+          "FLID": {
+            "type": "VARCHAR(64) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": true,
+            "nullable": false,
+            "default": null,
+            "autoincrement": false,
+            "comment": "字段标识，即字段名",
+            "examples": []
+          },
+          "FLSID": {
+            "type": "DECIMAL(6, 0)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "字段顺序号",
+            "examples": []
+          },
+          "FLCN": {
+            "type": "VARCHAR(200) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "字段中文名称",
+            "examples": []
+          },
+          "FLEN": {
+            "type": "VARCHAR(200) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "字段英文名称",
+            "examples": []
+          },
+          "FLTL": {
+            "type": "VARCHAR(100) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "字段类型及长度描述",
+            "examples": []
+          },
+          "NLAT": {
+            "type": "CHAR(1) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "空值属性标志",
+            "examples": []
+          },
+          "UNNM": {
+            "type": "VARCHAR(50) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "计量单位名称",
+            "examples": []
+          },
+          "FCHSC": {
+            "type": "VARCHAR(255) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "字段取值范围描述",
+            "examples": []
+          },
+          "EUFL": {
+            "type": "CHAR(1) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "交换使用标志",
+            "examples": []
+          },
+          "PKAT": {
+            "type": "CHAR(1) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "主键属性或主键顺序标志",
+            "examples": []
+          },
+          "MODITIME": {
+            "type": "DATETIME",
+            "primary_key": false,
+            "nullable": false,
+            "default": "CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+            "autoincrement": false,
+            "comment": "最新修改时间",
+            "examples": []
+          }
+        },
+        "examples": [],
+        "comment": "字段结构字典"
+      },
+      "ST_ADDVCD_D": {
+        "fields": {
+          "ADDVCD": {
+            "type": "CHAR(6) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": true,
+            "nullable": false,
+            "default": null,
+            "autoincrement": false,
+            "comment": "行政区划代码，保留前导零",
+            "examples": []
+          },
+          "ADDVNM": {
+            "type": "VARCHAR(100) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "行政区划名称",
+            "examples": []
+          },
+          "COMMENTS": {
+            "type": "VARCHAR(500) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "备注",
+            "examples": []
+          },
+          "MODITIME": {
+            "type": "DATETIME",
+            "primary_key": false,
+            "nullable": false,
+            "default": "CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+            "autoincrement": false,
+            "comment": "最新修改时间",
+            "examples": []
+          }
+        },
+        "examples": [],
+        "comment": "行政区域代码"
+      },
+      "ST_RVFCCH_B": {
+        "fields": {
+          "STCD": {
+            "type": "CHAR(8) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": true,
+            "nullable": false,
+            "default": null,
+            "autoincrement": false,
+            "comment": "测站编码",
+            "examples": []
+          },
+          "LDKEL": {
+            "type": "DECIMAL(12, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "左岸堤顶高程，m",
+            "examples": []
+          },
+          "RDKEL": {
+            "type": "DECIMAL(12, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "右岸堤顶高程，m",
+            "examples": []
+          },
+          "WRZ": {
+            "type": "DECIMAL(12, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "警戒水位，m",
+            "examples": []
+          },
+          "WRQ": {
+            "type": "DECIMAL(16, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "警戒流量，m3/s",
+            "examples": []
+          },
+          "GRZ": {
+            "type": "DECIMAL(12, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "保证水位，m",
+            "examples": []
+          },
+          "GRQ": {
+            "type": "DECIMAL(16, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "保证流量，m3/s",
+            "examples": []
+          },
+          "FLPQ": {
+            "type": "DECIMAL(16, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "平滩流量，m3/s",
+            "examples": []
+          },
+          "OBHTZ": {
+            "type": "DECIMAL(12, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "实测最高水位，m",
+            "examples": []
+          },
+          "OBHTZTM": {
+            "type": "DATETIME",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "实测最高水位发生时间",
+            "examples": []
+          },
+          "IVHZ": {
+            "type": "DECIMAL(12, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "调查最高水位，m",
+            "examples": []
+          },
+          "IVHZTM": {
+            "type": "DATETIME",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "调查最高水位发生时间",
+            "examples": []
+          },
+          "OBMXQ": {
+            "type": "DECIMAL(16, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "实测最大流量，m3/s",
+            "examples": []
+          },
+          "OBMXQTM": {
+            "type": "DATETIME",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "实测最大流量发生时间",
+            "examples": []
+          },
+          "IVMXQ": {
+            "type": "DECIMAL(16, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "调查最大流量，m3/s",
+            "examples": []
+          },
+          "IVMXQTM": {
+            "type": "DATETIME",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "调查最大流量发生时间",
+            "examples": []
+          },
+          "HMXS": {
+            "type": "DECIMAL(16, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "历史最大含沙量，kg/m3",
+            "examples": []
+          },
+          "HMXSTM": {
+            "type": "DATETIME",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "历史最大含沙量发生时间",
+            "examples": []
+          },
+          "HMXAVV": {
+            "type": "DECIMAL(12, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "历史最大断面平均流速，m/s",
+            "examples": []
+          },
+          "HMXAVVTM": {
+            "type": "DATETIME",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "历史最大断面平均流速发生时间",
+            "examples": []
+          },
+          "HLZ": {
+            "type": "DECIMAL(12, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "历史最低水位，m",
+            "examples": []
+          },
+          "HLZTM": {
+            "type": "DATETIME",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "历史最低水位发生时间",
+            "examples": []
+          },
+          "HMNQ": {
+            "type": "DECIMAL(16, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "历史最小流量，m3/s",
+            "examples": []
+          },
+          "HMNQTM": {
+            "type": "DATETIME",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "历史最小流量发生时间",
+            "examples": []
+          },
+          "TAZ": {
+            "type": "DECIMAL(12, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "多年平均水位，m",
+            "examples": []
+          },
+          "TAQ": {
+            "type": "DECIMAL(16, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "多年平均流量，m3/s",
+            "examples": []
+          },
+          "LAZ": {
+            "type": "DECIMAL(12, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "多年平均最低水位，m",
+            "examples": []
+          },
+          "LAQ": {
+            "type": "DECIMAL(16, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "多年平均最小流量，m3/s",
+            "examples": []
+          },
+          "SFZ": {
+            "type": "DECIMAL(12, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "安全泄量相应水位，m",
+            "examples": []
+          },
+          "SFQ": {
+            "type": "DECIMAL(16, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "安全泄量，m3/s",
+            "examples": []
+          },
+          "MODITIME": {
+            "type": "DATETIME",
+            "primary_key": false,
+            "nullable": false,
+            "default": "CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+            "autoincrement": false,
+            "comment": "最新修改时间",
+            "examples": []
+          }
+        },
+        "examples": [],
+        "comment": "河道站防洪指标"
+      },
+      "ST_RIVER_R": {
+        "fields": {
+          "STCD": {
+            "type": "CHAR(8) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": true,
+            "nullable": false,
+            "default": null,
+            "autoincrement": false,
+            "comment": "测站编码",
+            "examples": []
+          },
+          "TM": {
+            "type": "DATETIME",
+            "primary_key": true,
+            "nullable": false,
+            "default": null,
+            "autoincrement": false,
+            "comment": "水情发生时间",
+            "examples": []
+          },
+          "Z": {
+            "type": "DECIMAL(12, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "水位，m",
+            "examples": []
+          },
+          "Q": {
+            "type": "DECIMAL(16, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "流量，m3/s",
+            "examples": []
+          },
+          "XSA": {
+            "type": "DECIMAL(16, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "断面过水面积，m2",
+            "examples": []
+          },
+          "XSAVV": {
+            "type": "DECIMAL(12, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "断面平均流速，m/s",
+            "examples": []
+          },
+          "XSMXV": {
+            "type": "DECIMAL(12, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "断面最大流速，m/s",
+            "examples": []
+          },
+          "FLWCHRCD": {
+            "type": "CHAR(1) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "水情特征：1干涸、2断流、3流向不定、4逆流、5起涨、6洪峰",
+            "examples": []
+          },
+          "WPTN": {
+            "type": "CHAR(1) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "水势代码",
+            "examples": []
+          },
+          "MSQMT": {
+            "type": "CHAR(1) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "流量测法代码",
+            "examples": []
+          },
+          "MSAMT": {
+            "type": "CHAR(1) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "面积测法代码",
+            "examples": []
+          },
+          "MSVMT": {
+            "type": "CHAR(1) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "流速测法代码",
+            "examples": []
+          }
+        },
+        "examples": [],
+        "comment": "河道水情"
+      },
+      "ST_STBPRP_B": {
+        "fields": {
+          "STCD": {
+            "type": "CHAR(8) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": true,
+            "nullable": false,
+            "default": null,
+            "autoincrement": false,
+            "comment": "测站编码",
+            "examples": []
+          },
+          "STNM": {
+            "type": "VARCHAR(100) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "测站名称",
+            "examples": []
+          },
+          "RVNM": {
+            "type": "VARCHAR(100) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "河流名称",
+            "examples": []
+          },
+          "HNNM": {
+            "type": "VARCHAR(100) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "水系名称",
+            "examples": []
+          },
+          "BSNM": {
+            "type": "VARCHAR(100) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "流域名称",
+            "examples": []
+          },
+          "LGTD": {
+            "type": "DECIMAL(10, 6)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "经度，度",
+            "examples": []
+          },
+          "LTTD": {
+            "type": "DECIMAL(9, 6)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "纬度，度",
+            "examples": []
+          },
+          "STLC": {
+            "type": "VARCHAR(255) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "站址",
+            "examples": []
+          },
+          "ADDVCD": {
+            "type": "CHAR(6) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "行政区划代码，未知时填 NULL",
+            "examples": []
+          },
+          "DTMNM": {
+            "type": "VARCHAR(100) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "基面名称",
+            "examples": []
+          },
+          "DTMEL": {
+            "type": "DECIMAL(12, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "基面高程，m",
+            "examples": []
+          },
+          "DTPR": {
+            "type": "DECIMAL(12, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "基面修正值，m",
+            "examples": []
+          },
+          "STTP": {
+            "type": "CHAR(2) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "测站类型代码",
+            "examples": []
+          },
+          "FRGRD": {
+            "type": "CHAR(1) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "报汛等级代码",
+            "examples": []
+          },
+          "ESSTYM": {
+            "type": "CHAR(6) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "建站年月，YYYYMM",
+            "examples": []
+          },
+          "BGFRYM": {
+            "type": "CHAR(6) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "始报年月，YYYYMM",
+            "examples": []
+          },
+          "ATCUNIT": {
+            "type": "VARCHAR(100) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "隶属单位",
+            "examples": []
+          },
+          "ADMAUTH": {
+            "type": "VARCHAR(100) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "管理单位",
+            "examples": []
+          },
+          "LOCALITY": {
+            "type": "VARCHAR(100) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "地方管理或归属信息",
+            "examples": []
+          },
+          "STBK": {
+            "type": "CHAR(1) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "测站岸别代码",
+            "examples": []
+          },
+          "STAZT": {
+            "type": "DECIMAL(5, 1)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "测站方位，度",
+            "examples": []
+          },
+          "DSTRVM": {
+            "type": "DECIMAL(12, 1)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "至河口距离，km",
+            "examples": []
+          },
+          "DRNA": {
+            "type": "DECIMAL(16, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "集水面积，km2",
+            "examples": []
+          },
+          "PHCD": {
+            "type": "VARCHAR(32) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "地形代码",
+            "examples": []
+          },
+          "USFL": {
+            "type": "CHAR(1) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "使用标志",
+            "examples": []
+          },
+          "COMMENTS": {
+            "type": "VARCHAR(500) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "备注",
+            "examples": []
+          },
+          "MODITIME": {
+            "type": "DATETIME",
+            "primary_key": false,
+            "nullable": false,
+            "default": "CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+            "autoincrement": false,
+            "comment": "最新修改时间",
+            "examples": []
+          },
+          "RVCD": {
+            "type": "VARCHAR(32) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "河流代码，补充自字段文档",
+            "examples": []
+          }
+        },
+        "examples": [],
+        "comment": "测站基本属性"
+      },
+      "ST_HIWRCH_B": {
+        "fields": {
+          "STCD": {
+            "type": "CHAR(8) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": true,
+            "nullable": false,
+            "default": null,
+            "autoincrement": false,
+            "comment": "测站编码",
+            "examples": []
+          },
+          "HIWRTY": {
+            "type": "CHAR(1) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": true,
+            "nullable": false,
+            "default": null,
+            "autoincrement": false,
+            "comment": "预警类型：0洪水、1干旱",
+            "examples": []
+          },
+          "HIWRCH": {
+            "type": "CHAR(1) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": true,
+            "nullable": false,
+            "default": null,
+            "autoincrement": false,
+            "comment": "预警指标：0水位、1流量、2水量",
+            "examples": []
+          },
+          "WRSTAATR": {
+            "type": "CHAR(2) COLLATE \"utf8mb4_unicode_ci\"",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "统计标志：00瞬时、01一天、10十天",
+            "examples": []
+          },
+          "BUWR": {
+            "type": "DECIMAL(20, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "蓝色预警阈值；单位随指标为m、m3/s或m3",
+            "examples": []
+          },
+          "YEWR": {
+            "type": "DECIMAL(20, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "黄色预警阈值",
+            "examples": []
+          },
+          "OGWR": {
+            "type": "DECIMAL(20, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "橙色预警阈值",
+            "examples": []
+          },
+          "RDWR": {
+            "type": "DECIMAL(20, 3)",
+            "primary_key": false,
+            "nullable": true,
+            "default": null,
+            "autoincrement": false,
+            "comment": "红色预警阈值",
+            "examples": []
+          },
+          "MODITIME": {
+            "type": "DATETIME",
+            "primary_key": false,
+            "nullable": false,
+            "default": "CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)",
+            "autoincrement": false,
+            "comment": "最新修改时间，不使用 SQL Server rowversion",
+            "examples": []
+          }
+        },
+        "examples": [],
+        "comment": "水情预警指标"
+      }
+    },
+    "foreign_keys": [
+      [
+        "ST_PPTN_R",
+        "STCD",
+        "businessdb",
+        "ST_STBPRP_B",
+        "STCD"
+      ],
+      [
+        "ST_FORECAST_F",
+        "STCD",
+        "businessdb",
+        "ST_STBPRP_B",
+        "STCD"
+      ],
+      [
+        "ST_FIELD_D",
+        "TABID",
+        "businessdb",
+        "ST_TABLE_D",
+        "TABID"
+      ],
+      [
+        "ST_RVFCCH_B",
+        "STCD",
+        "businessdb",
+        "ST_STBPRP_B",
+        "STCD"
+      ],
+      [
+        "ST_RIVER_R",
+        "STCD",
+        "businessdb",
+        "ST_STBPRP_B",
+        "STCD"
+      ],
+      [
+        "ST_STBPRP_B",
+        "ADDVCD",
+        "businessdb",
+        "ST_ADDVCD_D",
+        "ADDVCD"
+      ],
+      [
+        "ST_HIWRCH_B",
+        "STCD",
+        "businessdb",
+        "ST_STBPRP_B",
+        "STCD"
+      ]
+    ]
+  },
+  "timestamp": 1795246574,
   "tables_count": 9
 }

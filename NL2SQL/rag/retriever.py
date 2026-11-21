@@ -6,6 +6,7 @@ from langchain_core.embeddings import Embeddings
 from typing import List, Dict
 from langchain_core.documents import Document
 from NL2SQL.rag.path_config import CHROMA_DB_DIR, HF_MODEL_DIR, RULES_CHROMA_DB_DIR
+from NL2SQL.config.settings import qualify_table_name
 
 class LocalBGEEmbeddings(Embeddings):
     def __init__(self, model_name=str(HF_MODEL_DIR)):
@@ -34,7 +35,7 @@ def get_field_docs_by_tables(table_names: List[str]) -> List[Document]:
 
     all_docs = []
     for name in table_names:
-        docs = db.similarity_search("", k=3, filter={"table": name})
+        docs = db.similarity_search("", k=3, filter={"table": qualify_table_name(name)})
         all_docs.extend(docs)
     return all_docs
 

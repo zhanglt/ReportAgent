@@ -71,5 +71,5 @@ def build_chroma_from_knowledge(persist_path: str = str(RULES_CHROMA_DB_DIR)):
 
 
 if __name__ == "__main__":
-    build_chroma_from_md("D:/Work/sqldata/docs/schema_doc.md")
+    build_chroma_from_md(str(Path(__file__).resolve().parents[1] / "docs" / "schema_doc.md"))
     # build_chroma_from_knowledge()

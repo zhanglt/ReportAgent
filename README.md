@@ -146,7 +146,7 @@ report_agent/
 1. 分析自然语言查询需求，识别涉及的指标、表和字段。
 2. 调用 `retrieve_field_docs` 检索字段说明，避免误解字段语义。
 3. 调用 `find_join_path` 查找表间 `join` 路径，确定多表连接关系。
-4. 生成面向 `SQL Server` 的 `SQL` 语句。
+4. 根据 `DB_URI` 对应的数据库方言生成 `SQL` 语句，支持 MySQL 8.0 和 SQL Server。
 5. 调用 `execute_sql` 执行 `SQL`，并返回结果。
 6. 调用 `retrieve_rules_docs` 检索业务规则，对结果口径做补充约束。
 
@@ -215,24 +215,63 @@ pip install -r requirements.txt
 
 | 变量名 | 说明 |
 | --- | --- |
-| `DB_URI` | SQL Server 连接串，用于 NL2SQL 查询数据库 |
-| `DB_SCHEMA` | 数据库默认 schema 名 |
+| `DB_URI` | NL2SQL 业务数据库的 SQLAlchemy 连接串，支持 MySQL 8.0 和 SQL Server |
+| `DB_SCHEMA` | MySQL 数据库名，留空时使用 `DB_URI` 中的数据库；SQL Server 填 schema（如 `dbo`） |
 | `DASHSCOPE_APIKEY` | 阿里百炼 API Key，用于调用 Qwen 模型 |
 | `BASE_URL` | DashScope 兼容接口地址 |
 | `NL2SQL_MODEL` | NL2SQL 模块使用的模型名称 |
 | `MODEL` | 主流程使用的模型名称 |
-| `NL2SQL_URL` | NL2SQL 服务接口地址 |
+| `NL2SQL_URL` | NL2SQL 服务接口完整地址，留空时使用 `http://127.0.0.1:8001/nl2sql` |
 | `CHROMA_DB_DIR` | 数据库字段说明的Chroma 向量库目录 |
 | `RULES_CHROMA_DB_DIR` | 规则知识库的 Chroma 向量库目录 |
 | `HF_MODEL_DIR` | 本地 HuggingFace 向量模型目录 |
 | `NEO4J_URI` | Neo4j 图数据库连接地址 |
 | `NEO4J_USER` | Neo4j 用户名 |
 | `NEO4J_PASSWORD` | Neo4j 密码 |
+| `NEO4J_DATABASE` | Neo4j 目标数据库名，如 `neo4j`；留空时使用服务端默认数据库 |
 | `DB_HOST` | MySQL 主机地址，用于存储业务规则 |
 | `DB_PORT` | MySQL 端口 |
 | `DB_USER` | MySQL 用户名 |
 | `DB_PASSWORD` | MySQL 密码 |
 | `DB_NAME` | MySQL 数据库名 |
+
+Neo4j 查询和图谱构建共用同一连接配置。支持 `bolt://` 直连与
+`neo4j://` 路由连接，以及对应的 `+s` / `+ssc` TLS URI。
+代码已兼容 py2neo 2021.2.4 从环境变量读取 `neo4j://` 时的
+`Unknown protocol 'neo4j'` 错误；修改配置或更新代码后需重启 NL2SQL 服务。
+
+#### MySQL 8.0 业务数据库配置
+
+```dotenv
+DB_URI=mysql+pymysql://report_reader:URL_ENCODED_PASSWORD@127.0.0.1:3306/businessdb?charset=utf8mb4
+DB_SCHEMA=
+```
+
+也支持 `mysql://...`，代码会自动选用 PyMySQL。未设置字符集时默认使用
+`utf8mb4`，显式配置的字符集会保留。用户名或密码中的 `@`、`#`、`/` 等特殊字符
+需要进行 URL 编码。`PyMySQL[rsa]` 依赖支持 MySQL 8.0 的
+`caching_sha2_password` 认证。
+
+`DB_SCHEMA` 可留空，也可填写 URI 中的数据库名；不要沿用 SQL Server 的 `dbo`。
+查询执行、schema 缓存生成和知识图谱的现场结构提取共用同一连接配置。
+`DB_HOST` / `DB_PORT` / `DB_USER` / `DB_PASSWORD` / `DB_NAME` 是独立的规则库配置，
+不会替代 NL2SQL 使用的 `DB_URI`。
+
+切换数据库后，请确认 `NL2SQL/config/settings.py` 中的 `INCLUDE_TABLES` 与实际表名一致
+（Linux 上的 MySQL 表名可能区分大小写）。然后在项目根目录更新结构和检索资料：
+
+```bash
+python -m pip install 'PyMySQL[rsa]==1.1.1'
+python -m NL2SQL.get_schema_cache
+python -m NL2SQL.rag.embedder
+# 在专用 Neo4j 图数据库中执行；此命令会清空该图数据库后重建
+python -m NL2SQL.knowledge_graph.graph_builder
+```
+
+字段文档 `NL2SQL/docs/schema_doc.md` 和人工关系 `table_relations.json` 使用不带数据库前缀的表名，
+构建时自动补上当前 `DB_SCHEMA`。自定义文档若写有 `dbo.`，也需要修改后再构建。
+已有的 schema 缓存、向量库和 Neo4j 图谱不会随 `.env` 自动迁移；更新后重启 NL2SQL 服务，
+避免继续检索 SQL Server 的旧表名或使用旧会话 SQL。
 
 ### 5.3 模型使用
 
@@ -259,7 +298,7 @@ pip install -r requirements.txt
 5. `docs/schema_doc.md`中补充表字段说明，格式参数示例：
 
    ```
-   ### 表名：dbo.ST_PPTN_R
+   ### 表名：ST_PPTN_R
    降水量表用于存储时段降水量和日降水量。
    表结构各字段描述如下：
    1. STCD (测站编码)：测站编码具有唯一性，由数字和大写字母组成的 8 位字符串。

@@ -1,13 +1,10 @@
-from py2neo import Graph
+from NL2SQL.knowledge_graph.connection import create_schema_graph
 
-from NL2SQL.config.settings import NEO4J_PASSWORD, NEO4J_URI, NEO4J_USER, qualify_column_name
+from NL2SQL.config.settings import qualify_column_name
 
 class SchemaGraphQuery:
     def __init__(self):
-        self.graph = Graph(
-            NEO4J_URI,
-            auth=(NEO4J_USER, NEO4J_PASSWORD)
-        )
+        self.graph = create_schema_graph()
 
     def find_path(self, start_column: str, end_column: str):
         """
@@ -43,7 +40,7 @@ class SchemaGraphQuery:
 
 if __name__ == "__main__":
     sq = SchemaGraphQuery()
-    p = sq.find_path("dbo.ST_PPTN_R.STCD", "dbo.ST_ADDVCD_D.ADDVCD")
+    p = sq.find_path("ST_PPTN_R.STCD", "ST_ADDVCD_D.ADDVCD")
     if p:
         print("路径节点：", [n["name"] for n in p.nodes])
         print("涉及表：", sq.extract_tables_from_path(p))

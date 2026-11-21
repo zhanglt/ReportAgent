@@ -5,6 +5,7 @@ from typing import List, Dict
 import pymysql
 import os
 from dotenv import load_dotenv
+from NL2SQL.config.settings import qualify_table_name
 
 # 加载环境变量
 load_dotenv()
@@ -28,7 +29,7 @@ def parse_schema_md_by_table(md_text: str) -> List[Dict]:
                     "metadata": {"table": current_table}
                 })
                 current_chunk = []
-            current_table = table_match.group(1)
+            current_table = qualify_table_name(table_match.group(1))
             current_chunk.append(f"【表名】{current_table}")
         elif current_table:
             current_chunk.append(line)

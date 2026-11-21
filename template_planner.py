@@ -5,6 +5,7 @@ import glob
 import json
 import os
 import re
+import logging
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -393,7 +394,7 @@ def _generate_queries_with_schema(
         "只输出一个 JSON 对象，禁止输出任何额外解释。\n"
         "JSON 必须包含以下字段：\n"
         "- outline: 字符串数组，表示最终采用的报告章节提纲。\n"
-        "- query_tasks: 数组，每项是对象，包含 task_id、section_title、goal、must_include、comparison_target、priority。\n"
+        "- query_tasks: 数组，每项是对象，包含 task_id、section_title、goal、must_include、comparison_target、priority。priority 为整数。\n"
         "- queries: 字符串数组，表示最终生成的自然语言查询语句。\n"
         "\n"
         "额外要求：\n"
@@ -431,6 +432,10 @@ def _generate_queries_with_schema(
     for idx, item in enumerate(llm_tasks, start=1):
         if not isinstance(item, dict):
             continue
+        try:
+            priority = int(item.get("priority") or idx)
+        except (TypeError, ValueError, OverflowError):
+            priority = idx
         normalized_tasks.append(
             {
                 "task_id": str(item.get("task_id") or f"sec{idx}_q1"),
@@ -438,7 +443,7 @@ def _generate_queries_with_schema(
                 "goal": str(item.get("goal") or "报告查询任务"),
                 "must_include": [str(v) for v in (item.get("must_include") or []) if str(v).strip()],
                 "comparison_target": item.get("comparison_target"),
-                "priority": int(item.get("priority") or idx),
+                "priority": priority,
             }
         )
 

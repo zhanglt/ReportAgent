@@ -4,9 +4,9 @@ import time
 from pathlib import Path
 import re
 
-from NL2SQL.config.settings import DB_SCHEMA, DB_URI, INCLUDE_TABLES
+from NL2SQL.config.settings import DB_SCHEMA, INCLUDE_TABLES
+from NL2SQL.config.database import create_business_engine
 from NL2SQL.schema_engine.schema_engine import SchemaEngine
-from sqlalchemy import create_engine
 
 def main():
     project_root = Path(__file__).resolve().parent
@@ -16,7 +16,7 @@ def main():
     cache_file = cache_dir / "schema.json"
 
     print("正在生成 schema 缓存（现场连库）...")
-    db_engine = create_engine(DB_URI)
+    db_engine = create_business_engine()
     schema_engine = SchemaEngine(
         engine=db_engine,
         schema=DB_SCHEMA,

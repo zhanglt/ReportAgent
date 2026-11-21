@@ -4,13 +4,14 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
+from NL2SQL.config.database import resolve_schema
 
 load_dotenv()
 
 PACKAGE_ROOT = Path(__file__).resolve().parents[1]
 
 DB_URI = os.getenv("DB_URI", "")
-DB_SCHEMA = os.getenv("DB_SCHEMA", "")
+DB_SCHEMA = resolve_schema(DB_URI, os.getenv("DB_SCHEMA", ""))
 
 INCLUDE_TABLES = [
     "ST_TABLE_D",
@@ -40,6 +41,7 @@ HF_MODEL_DIR = Path(os.getenv("HF_MODEL_DIR", PACKAGE_ROOT / "hf_models" / "bge-
 NEO4J_URI = os.getenv("NEO4J_URI", "")
 NEO4J_USER = os.getenv("NEO4J_USER", "")
 NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD", "")
+NEO4J_DATABASE = os.getenv("NEO4J_DATABASE", "").strip() or None
 
 
 def ensure_dirs() -> None:
@@ -51,12 +53,12 @@ def ensure_dirs() -> None:
 def qualify_table_name(table_name: str) -> str:
     if not table_name:
         return table_name
-    return table_name if "." in table_name else f"{DB_SCHEMA}.{table_name}"
+    return table_name if "." in table_name or not DB_SCHEMA else f"{DB_SCHEMA}.{table_name}"
 
 
 def qualify_column_name(column_name: str) -> str:
     parts = (column_name or "").split(".")
-    if len(parts) == 2:
+    if len(parts) == 2 and DB_SCHEMA:
         return f"{DB_SCHEMA}.{parts[0]}.{parts[1]}"
     if len(parts) >= 3:
         return f"{parts[0]}.{parts[1]}.{parts[2]}"

@@ -1,16 +1,13 @@
 import json
 import re
-from sqlalchemy import create_engine
-from py2neo import Graph, Node, Relationship
+from NL2SQL.config.database import create_business_engine
+from py2neo import Node, Relationship
+from NL2SQL.knowledge_graph.connection import create_schema_graph
 import os
 
 from NL2SQL.config.settings import (
     DB_SCHEMA,
-    DB_URI,
     INCLUDE_TABLES,
-    NEO4J_PASSWORD,
-    NEO4J_URI,
-    NEO4J_USER,
     qualify_column_name,
     qualify_table_name,
 )
@@ -114,15 +111,12 @@ def build_schema_graph():
     同时支持从 table_relations.json 加载人工外键关系
     """
     # 连接 Neo4j
-    graph = Graph(
-        NEO4J_URI,
-        auth=(NEO4J_USER, NEO4J_PASSWORD)
-    )
+    graph = create_schema_graph()
 
     mschema_obj = _load_mschema_from_cache()
     if mschema_obj is None:
         print("未命中 schema 缓存，回退为现场连库读取结构...")
-        db_engine = create_engine(DB_URI)
+        db_engine = create_business_engine()
         schema_engine = SchemaEngine(
             engine=db_engine,
             schema=DB_SCHEMA,

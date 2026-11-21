@@ -8,10 +8,10 @@ from langchain.agents import AgentType
 from langchain_core.prompts import ChatPromptTemplate
 from typing import Dict, List
 
-from sqlalchemy import create_engine
+from NL2SQL.config.database import create_business_engine, sql_dialect_instructions
 from sqlalchemy.sql import text
 from tabulate import tabulate
-from NL2SQL.config.settings import BASE_URL, DASHSCOPE_APIKEY, DB_URI, NL2SQL_MODEL
+from NL2SQL.config.settings import BASE_URL, DASHSCOPE_APIKEY, NL2SQL_MODEL
 from NL2SQL.knowledge_graph.graph_query import SchemaGraphQuery
 from NL2SQL.rag.path_config import CHROMA_DB_DIR
 from NL2SQL.rag.retriever import get_field_docs_by_tables, get_rules_by_knowledgecontent, load_retriever
@@ -23,7 +23,7 @@ __AGENT_INIT_LOCK = threading.Lock()
 
 MAX_TOOL_RETURN_CHARS = 5000  # 控制传给 LLM 的结果长度
 
-engine = create_engine(DB_URI)
+engine = create_business_engine()
 retriever = load_retriever(persist_path=str(CHROMA_DB_DIR))
 
 llm = ChatOpenAI(
@@ -160,7 +160,7 @@ system_prompt = """
 1. **分析查询需求**：从用户的自然语言查询中识别出涉及的表和字段。
 2. **使用图谱进行路径规划**：一旦识别出涉及的表和字段，你需要使用工具`find_join_path`查找这些表的字段的连接关系。具体来说，使用图谱中的外键关系（如 `FOREIGN_KEY_TO`）来推断这些表应该如何连接。
 3. **获取字段解释**：在生成 SQL 查询之前，使用工具`retrieve_field_docs` 获取表中涉及字段的详细解释。这一步非常重要，确保你理解每个字段的含义。不要直接猜测字段含义，必须根据字段文档内容来判断。在理解所有字段含义后，思考是否要补充生成SQL所需要的字段。
-4. **生成 SQL 查询**：结合路径规划的信息和字段说明，生成一个 sqlserver 支持的有效 SQL 查询。
+4. **生成 SQL 查询**：结合路径规划的信息和字段说明，生成符合当前数据库方言的有效 SQL 查询。
 5. **执行 SQL 查询**：生成的 SQL 查询将通过工具`execute_sql` 执行，并返回查询结果。
 6. **过滤查询结果**：在最后一次执行SQL查询得到输出结果后，必须使用工具`retrieve_rules_docs`获取过滤规则，过滤输出结果，并将过滤后的数据作为最终结果输出。
 ### 工具 ###
@@ -179,6 +179,8 @@ system_prompt = """
 4. **生成SQL语句**：基于所有信息，生成符合查询需求的 SQL 语句。
 5. **执行SQL语句**：通过`execute_sql`执行SQL语句并返回数据。无论何时你草拟了 SQL，都必须调用工具 execute_sql 执行该 SQL。不得凭空给出查询结果。给出最终答案前，至少完成一次 execute_sql。
 """
+
+system_prompt += "\n" + sql_dialect_instructions(engine.dialect.name)
 
 user_prompt_continue = """
 {history}

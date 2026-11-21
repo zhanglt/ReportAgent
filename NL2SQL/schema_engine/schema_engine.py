@@ -13,6 +13,8 @@ class SchemaEngine(SQLDatabase):
                  sample_rows_in_table_info: int = 3, indexes_in_table_info: bool = False,
                  custom_table_info: Optional[dict] = None, view_support: bool = False, max_string_length: int = 300,
                  mschema: Optional[MSchema] = None, db_name: Optional[str] = ''):
+        if not schema and engine.dialect.name == "mysql":
+            schema = engine.url.database
         super().__init__(engine, schema, metadata, ignore_tables, include_tables, sample_rows_in_table_info,
                          indexes_in_table_info, custom_table_info, view_support, max_string_length)
 

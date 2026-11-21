@@ -243,7 +243,7 @@ def nl2sql_node(state: GraphState) -> GraphState:
     if not q:
         return new
 
-    nl2sql_url = os.getenv("NL2SQL_URL", "http://localhost:8001/nl2sql")
+    nl2sql_url = (os.getenv("NL2SQL_URL") or "").strip() or "http://127.0.0.1:8001/nl2sql"
     print(f"[NL2SQL] execute query: {q}")
     resp = requests.post(
         nl2sql_url,
