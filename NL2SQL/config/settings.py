@@ -28,6 +28,7 @@ INCLUDE_TABLES = [
 DASHSCOPE_APIKEY = os.getenv("DASHSCOPE_APIKEY", "")
 BASE_URL = os.getenv("BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
 NL2SQL_MODEL = os.getenv("NL2SQL_MODEL", "qwen3-max")
+NL2SQL_STREAMING = os.getenv("NL2SQL_STREAMING", "").strip().lower() in {"1", "true", "yes", "on"}
 
 SERVICE_HOST = os.getenv("NL2SQL_HOST", "0.0.0.0")
 SERVICE_PORT = int(os.getenv("NL2SQL_PORT", "8001"))

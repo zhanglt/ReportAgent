@@ -29,9 +29,9 @@ def retrieve_context(query: str, persist_path: str = str(CHROMA_DB_DIR), top_k: 
     return docs
 
 
-def get_field_docs_by_tables(table_names: List[str]) -> List[Document]:
-    embedding = LocalBGEEmbeddings()
-    db = Chroma(persist_directory=str(CHROMA_DB_DIR), embedding_function=embedding)
+def get_field_docs_by_tables(table_names: List[str], *, db: Chroma | None = None) -> List[Document]:
+    if db is None:
+        db = Chroma(persist_directory=str(CHROMA_DB_DIR), embedding_function=LocalBGEEmbeddings())
 
     all_docs = []
     for name in table_names:
@@ -51,7 +51,9 @@ def get_field_docs_by_tables(table_names: List[str]) -> List[Document]:
 #     docs = db.similarity_search(query, k=3)
 #     return docs
 
-def get_rules_by_knowledgecontent(query: str, score_threshold: float = 0.7) -> List[Document]:
+def get_rules_by_knowledgecontent(
+    query: str, score_threshold: float = 0.7, *, db: Chroma | None = None
+) -> List[Document]:
     """
     对 knowledgecontent 进行相似度检索
 
@@ -62,8 +64,8 @@ def get_rules_by_knowledgecontent(query: str, score_threshold: float = 0.7) -> L
     Returns:
         List[Document]: 满足置信度阈值条件的文档列表，如果没有符合条件的文档则返回空列表
     """
-    embedding = LocalBGEEmbeddings()
-    db = Chroma(persist_directory=str(RULES_CHROMA_DB_DIR), embedding_function=embedding)
+    if db is None:
+        db = Chroma(persist_directory=str(RULES_CHROMA_DB_DIR), embedding_function=LocalBGEEmbeddings())
 
     # 使用带分数的相似度搜索
     docs_with_scores = db.similarity_search_with_score(query, k=5)  # 先获取较多结果

@@ -90,7 +90,10 @@ def _run_with_mode(query: str, result: str, mode: str) -> GraphState:
             {"status": status, "needs_follow_up": status in {"empty", "error"}},
             ensure_ascii=False,
         )
-        with patch("node._get_llm_client", return_value=(_FakeLLM(fake_content), "fake-model")):
+        with (
+            patch.dict("os.environ", {"MAIN_LLM_STREAMING": "false"}),
+            patch("node._get_llm_client", return_value=(_FakeLLM(fake_content), "fake-model")),
+        ):
             return result_review_node(state)
 
     raise ValueError(f"Unknown mode: {mode}")

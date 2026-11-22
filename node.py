@@ -9,6 +9,7 @@ from datetime import datetime
 import requests
 import report_writer
 from helper import (
+    _chat_completion_text,
     _get_llm_client,
     append_unique,
     build_report_user_input,
@@ -81,7 +82,8 @@ def intent_analysis_node(state: GraphState) -> GraphState:
                 ],
                 "user_input": goal,
             }
-            resp = llm.chat.completions.create(
+            content = _chat_completion_text(
+                llm,
                 model=model,
                 messages=[
                     {"role": "system", "content": system},
@@ -90,7 +92,6 @@ def intent_analysis_node(state: GraphState) -> GraphState:
                 temperature=0,
                 response_format={"type": "json_object"},
             )
-            content = (resp.choices[0].message.content or "").strip()
             obj = json.loads(content)
             meaning = str(obj.get("intent") or "").strip().lower()
             if meaning not in {"query", "report", "other"}:
@@ -335,7 +336,8 @@ def result_review_node(state: GraphState) -> GraphState:
             "query": query,
             "result": result_text,
         }
-        resp = llm.chat.completions.create(
+        content = _chat_completion_text(
+            llm,
             model=model,
             messages=[
                 {"role": "system", "content": system},
@@ -344,7 +346,6 @@ def result_review_node(state: GraphState) -> GraphState:
             temperature=0,
             response_format={"type": "json_object"},
         )
-        content = (resp.choices[0].message.content or "").strip()
         obj = json.loads(content)
         status = str(obj.get("status") or "").strip().lower()
         if status not in {"ok", "empty", "error"}:

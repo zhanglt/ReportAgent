@@ -12,7 +12,7 @@ from typing import Any, Dict, List, Optional
 
 from openai import OpenAI
 
-from helper import _get_llm_client, resolve_relative_dates
+from helper import _chat_completion_text, _get_llm_client, resolve_relative_dates
 
 try:
     from dotenv import load_dotenv
@@ -227,7 +227,8 @@ def extract_request_context(user_input: str) -> Dict[str, Optional[str]]:
         ],
         "normalized_input": normalized_goal,
     }
-    resp = llm.chat.completions.create(
+    content = _chat_completion_text(
+        llm,
         model=model,
         messages=[
             {"role": "system", "content": system},
@@ -236,7 +237,7 @@ def extract_request_context(user_input: str) -> Dict[str, Optional[str]]:
         temperature=0,
         response_format={"type": "json_object"},
     )
-    obj = json.loads((resp.choices[0].message.content or "").strip())
+    obj = json.loads(content)
     result["time"] = _normalize_extracted_time(obj.get("time"))
     result["region"] = str(obj.get("region")).strip() if obj.get("region") else None
     result["report_type"] = _normalize_report_type(obj.get("report_type"))
@@ -279,7 +280,8 @@ def _select_template(
         "report_type": report_type,
         "candidates": candidates,
     }
-    resp = llm.chat.completions.create(
+    content = _chat_completion_text(
+        llm,
         model=model,
         messages=[
             {"role": "system", "content": system},
@@ -288,7 +290,7 @@ def _select_template(
         temperature=0.1,
         response_format={"type": "json_object"},
     )
-    obj = json.loads(resp.choices[0].message.content or "{}")
+    obj = json.loads(content or "{}")
     name = obj.get("template_name")
     if isinstance(name, str) and name.strip():
         return name.strip()
@@ -415,7 +417,8 @@ def _generate_queries_with_schema(
     }
 
     llm, model = _get_llm_client(default_model="qwen3-max")
-    resp = llm.chat.completions.create(
+    content = _chat_completion_text(
+        llm,
         model=model,
         messages=[
             {"role": "system", "content": system},
@@ -424,7 +427,7 @@ def _generate_queries_with_schema(
         temperature=0.1,
         response_format={"type": "json_object"},
     )
-    result = json.loads(resp.choices[0].message.content or "{}")
+    result = json.loads(content or "{}")
 
     queries = _dedupe_keep_order([item for item in (result.get("queries") or []) if isinstance(item, str)])
     llm_tasks = result.get("query_tasks") if isinstance(result.get("query_tasks"), list) else []

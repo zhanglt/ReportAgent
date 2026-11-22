@@ -1,0 +1,184 @@
+-- ReportAgent 业务库初始化：MySQL 5.7 / 8.x，InnoDB，utf8mb4。
+-- 用法：mysql --default-character-set=utf8mb4 -h 主机 -u 用户 -p 业务库 < NL2SQL/business_data_mysql.sql
+-- 数据库须事先创建；本脚本不指定 USE，不删除表，不插入示例或业务数据。
+-- 来源：schema_cache/schema.json 的字段/主键快照、docs/schema_doc.md、表关联配置。
+-- 快照不包含原始长度/精度/完整约束，本脚本为兼容初始化结构，并非原库 DDL 还原。
+-- 约定：编码用字符型保留前导零；测值用 DECIMAL；日期用 DATETIME(3)。
+-- 旧 SQL Server 的预警表 TIMESTAMP 是 rowversion，本脚本改为实际修改时间。
+-- 表名统一大写，匹配 config/settings.py；MySQL 下不使用 SQL Server 的 dbo 前缀。
+-- IF NOT EXISTS 仅跳过已有表，不会修复其字段、索引或约束差异。
+-- 外键要求先导入行政区划、测站，再导入观测/预报数据；未设级联删除。
+
+SET NAMES utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ST_TABLE_D` (
+    `TABID` VARCHAR(64) NOT NULL COMMENT '表标识，即业务表名',
+    `TABNO` VARCHAR(32) NULL COMMENT '表编号',
+    `TABCN` VARCHAR(200) NULL COMMENT '表中文名称',
+    `TABEN` VARCHAR(200) NULL COMMENT '表英文名称',
+    `EXCHFL` CHAR(1) NULL COMMENT '交换标志',
+    `MODITIME` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)
+        ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最新修改时间',
+    PRIMARY KEY (`TABID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='表结构字典';
+
+CREATE TABLE IF NOT EXISTS `ST_FIELD_D` (
+    `TABID` VARCHAR(64) NOT NULL COMMENT '所属表标识',
+    `FLID` VARCHAR(64) NOT NULL COMMENT '字段标识，即字段名',
+    `FLSID` DECIMAL(6,0) NULL COMMENT '字段顺序号',
+    `FLCN` VARCHAR(200) NULL COMMENT '字段中文名称',
+    `FLEN` VARCHAR(200) NULL COMMENT '字段英文名称',
+    `FLTL` VARCHAR(100) NULL COMMENT '字段类型及长度描述',
+    `NLAT` CHAR(1) NULL COMMENT '空值属性标志',
+    `UNNM` VARCHAR(50) NULL COMMENT '计量单位名称',
+    `FCHSC` VARCHAR(255) NULL COMMENT '字段取值范围描述',
+    `EUFL` CHAR(1) NULL COMMENT '交换使用标志',
+    `PKAT` CHAR(1) NULL COMMENT '主键属性或主键顺序标志',
+    `MODITIME` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)
+        ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最新修改时间',
+    PRIMARY KEY (`TABID`, `FLID`),
+    CONSTRAINT `fk_field_table` FOREIGN KEY (`TABID`) REFERENCES `ST_TABLE_D` (`TABID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='字段结构字典';
+
+CREATE TABLE IF NOT EXISTS `ST_ADDVCD_D` (
+    `ADDVCD` CHAR(6) NOT NULL COMMENT '行政区划代码，保留前导零',
+    `ADDVNM` VARCHAR(100) NULL COMMENT '行政区划名称',
+    `COMMENTS` VARCHAR(500) NULL COMMENT '备注',
+    `MODITIME` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)
+        ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最新修改时间',
+    PRIMARY KEY (`ADDVCD`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='行政区域代码';
+
+CREATE TABLE IF NOT EXISTS `ST_STBPRP_B` (
+    `STCD` CHAR(8) NOT NULL COMMENT '测站编码',
+    `STNM` VARCHAR(100) NULL COMMENT '测站名称',
+    `RVNM` VARCHAR(100) NULL COMMENT '河流名称',
+    `HNNM` VARCHAR(100) NULL COMMENT '水系名称',
+    `BSNM` VARCHAR(100) NULL COMMENT '流域名称',
+    `LGTD` DECIMAL(10,6) NULL COMMENT '经度，度',
+    `LTTD` DECIMAL(9,6) NULL COMMENT '纬度，度',
+    `STLC` VARCHAR(255) NULL COMMENT '站址',
+    `ADDVCD` CHAR(6) NULL COMMENT '行政区划代码，未知时填 NULL',
+    `DTMNM` VARCHAR(100) NULL COMMENT '基面名称',
+    `DTMEL` DECIMAL(12,3) NULL COMMENT '基面高程，m',
+    `DTPR` DECIMAL(12,3) NULL COMMENT '基面修正值，m',
+    `STTP` CHAR(2) NULL COMMENT '测站类型代码',
+    `FRGRD` CHAR(1) NULL COMMENT '报汛等级代码',
+    `ESSTYM` CHAR(6) NULL COMMENT '建站年月，YYYYMM',
+    `BGFRYM` CHAR(6) NULL COMMENT '始报年月，YYYYMM',
+    `ATCUNIT` VARCHAR(100) NULL COMMENT '隶属单位',
+    `ADMAUTH` VARCHAR(100) NULL COMMENT '管理单位',
+    `LOCALITY` VARCHAR(100) NULL COMMENT '地方管理或归属信息',
+    `STBK` CHAR(1) NULL COMMENT '测站岸别代码',
+    `STAZT` DECIMAL(5,1) NULL COMMENT '测站方位，度',
+    `DSTRVM` DECIMAL(12,1) NULL COMMENT '至河口距离，km',
+    `DRNA` DECIMAL(16,3) NULL COMMENT '集水面积，km2',
+    `PHCD` VARCHAR(32) NULL COMMENT '地形代码',
+    `USFL` CHAR(1) NULL COMMENT '使用标志',
+    `COMMENTS` VARCHAR(500) NULL COMMENT '备注',
+    `MODITIME` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)
+        ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最新修改时间',
+    `RVCD` VARCHAR(32) NULL COMMENT '河流代码，补充自字段文档',
+    PRIMARY KEY (`STCD`),
+    KEY `idx_station_name` (`STNM`),
+    KEY `idx_station_addvcd` (`ADDVCD`),
+    CONSTRAINT `fk_station_addvcd` FOREIGN KEY (`ADDVCD`) REFERENCES `ST_ADDVCD_D` (`ADDVCD`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='测站基本属性';
+
+CREATE TABLE IF NOT EXISTS `ST_PPTN_R` (
+    `STCD` CHAR(8) NOT NULL COMMENT '测站编码',
+    `TM` DATETIME(3) NOT NULL COMMENT '降水量截止时间',
+    `DRP` DECIMAL(12,3) NULL COMMENT '时段降水量，mm',
+    `INTV` DECIMAL(8,2) NULL COMMENT '时段长，HH.NN，NN 表示分钟而非十进制小时',
+    `PDR` DECIMAL(8,2) NULL COMMENT '降水历时，HH.NN',
+    `DYP` DECIMAL(12,3) NULL COMMENT '日降水量，mm',
+    `WTH` CHAR(1) NULL COMMENT '天气：5雪、6雨夹雪、7雨、8阴、9晴',
+    `GGMD` CHAR(1) NULL COMMENT '观测方式：0或空为自动，1为人工，补充自字段文档',
+    PRIMARY KEY (`STCD`, `TM`),
+    KEY `idx_pptn_time` (`TM`),
+    CONSTRAINT `fk_pptn_station` FOREIGN KEY (`STCD`) REFERENCES `ST_STBPRP_B` (`STCD`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='降水量';
+
+CREATE TABLE IF NOT EXISTS `ST_RIVER_R` (
+    `STCD` CHAR(8) NOT NULL COMMENT '测站编码',
+    `TM` DATETIME(3) NOT NULL COMMENT '水情发生时间',
+    `Z` DECIMAL(12,3) NULL COMMENT '水位，m',
+    `Q` DECIMAL(16,3) NULL COMMENT '流量，m3/s',
+    `XSA` DECIMAL(16,3) NULL COMMENT '断面过水面积，m2',
+    `XSAVV` DECIMAL(12,3) NULL COMMENT '断面平均流速，m/s',
+    `XSMXV` DECIMAL(12,3) NULL COMMENT '断面最大流速，m/s',
+    `FLWCHRCD` CHAR(1) NULL COMMENT '水情特征：1干涸、2断流、3流向不定、4逆流、5起涨、6洪峰',
+    `WPTN` CHAR(1) NULL COMMENT '水势代码',
+    `MSQMT` CHAR(1) NULL COMMENT '流量测法代码',
+    `MSAMT` CHAR(1) NULL COMMENT '面积测法代码',
+    `MSVMT` CHAR(1) NULL COMMENT '流速测法代码',
+    PRIMARY KEY (`STCD`, `TM`),
+    KEY `idx_river_time` (`TM`),
+    CONSTRAINT `fk_river_station` FOREIGN KEY (`STCD`) REFERENCES `ST_STBPRP_B` (`STCD`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='河道水情';
+
+CREATE TABLE IF NOT EXISTS `ST_RVFCCH_B` (
+    `STCD` CHAR(8) NOT NULL COMMENT '测站编码',
+    `LDKEL` DECIMAL(12,3) NULL COMMENT '左岸堤顶高程，m',
+    `RDKEL` DECIMAL(12,3) NULL COMMENT '右岸堤顶高程，m',
+    `WRZ` DECIMAL(12,3) NULL COMMENT '警戒水位，m',
+    `WRQ` DECIMAL(16,3) NULL COMMENT '警戒流量，m3/s',
+    `GRZ` DECIMAL(12,3) NULL COMMENT '保证水位，m',
+    `GRQ` DECIMAL(16,3) NULL COMMENT '保证流量，m3/s',
+    `FLPQ` DECIMAL(16,3) NULL COMMENT '平滩流量，m3/s',
+    `OBHTZ` DECIMAL(12,3) NULL COMMENT '实测最高水位，m',
+    `OBHTZTM` DATETIME(3) NULL COMMENT '实测最高水位发生时间',
+    `IVHZ` DECIMAL(12,3) NULL COMMENT '调查最高水位，m',
+    `IVHZTM` DATETIME(3) NULL COMMENT '调查最高水位发生时间',
+    `OBMXQ` DECIMAL(16,3) NULL COMMENT '实测最大流量，m3/s',
+    `OBMXQTM` DATETIME(3) NULL COMMENT '实测最大流量发生时间',
+    `IVMXQ` DECIMAL(16,3) NULL COMMENT '调查最大流量，m3/s',
+    `IVMXQTM` DATETIME(3) NULL COMMENT '调查最大流量发生时间',
+    `HMXS` DECIMAL(16,3) NULL COMMENT '历史最大含沙量，kg/m3',
+    `HMXSTM` DATETIME(3) NULL COMMENT '历史最大含沙量发生时间',
+    `HMXAVV` DECIMAL(12,3) NULL COMMENT '历史最大断面平均流速，m/s',
+    `HMXAVVTM` DATETIME(3) NULL COMMENT '历史最大断面平均流速发生时间',
+    `HLZ` DECIMAL(12,3) NULL COMMENT '历史最低水位，m',
+    `HLZTM` DATETIME(3) NULL COMMENT '历史最低水位发生时间',
+    `HMNQ` DECIMAL(16,3) NULL COMMENT '历史最小流量，m3/s',
+    `HMNQTM` DATETIME(3) NULL COMMENT '历史最小流量发生时间',
+    `TAZ` DECIMAL(12,3) NULL COMMENT '多年平均水位，m',
+    `TAQ` DECIMAL(16,3) NULL COMMENT '多年平均流量，m3/s',
+    `LAZ` DECIMAL(12,3) NULL COMMENT '多年平均最低水位，m',
+    `LAQ` DECIMAL(16,3) NULL COMMENT '多年平均最小流量，m3/s',
+    `SFZ` DECIMAL(12,3) NULL COMMENT '安全泄量相应水位，m',
+    `SFQ` DECIMAL(16,3) NULL COMMENT '安全泄量，m3/s',
+    `MODITIME` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)
+        ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最新修改时间',
+    PRIMARY KEY (`STCD`),
+    CONSTRAINT `fk_rvfcch_station` FOREIGN KEY (`STCD`) REFERENCES `ST_STBPRP_B` (`STCD`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='河道站防洪指标';
+
+CREATE TABLE IF NOT EXISTS `ST_FORECAST_F` (
+    `STCD` CHAR(8) NOT NULL COMMENT '测站编码',
+    `UNITNAME` VARCHAR(100) NOT NULL COMMENT '预报单位名称',
+    `PLCD` VARCHAR(32) NOT NULL COMMENT '预报方案或发布标识，按业务约定填写',
+    `FYMDH` DATETIME(3) NOT NULL COMMENT '依据时间',
+    `IYMDH` DATETIME(3) NOT NULL COMMENT '发布时间',
+    `YMDH` DATETIME(3) NOT NULL COMMENT '预报发生时间',
+    `Z` DECIMAL(12,3) NULL COMMENT '预报水位，m',
+    `Q` DECIMAL(16,3) NULL COMMENT '预报流量，m3/s',
+    PRIMARY KEY (`STCD`, `UNITNAME`, `PLCD`, `FYMDH`, `IYMDH`, `YMDH`),
+    KEY `idx_forecast_time` (`YMDH`),
+    CONSTRAINT `fk_forecast_station` FOREIGN KEY (`STCD`) REFERENCES `ST_STBPRP_B` (`STCD`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='水情预报成果';
+
+CREATE TABLE IF NOT EXISTS `ST_HIWRCH_B` (
+    `STCD` CHAR(8) NOT NULL COMMENT '测站编码',
+    `HIWRTY` CHAR(1) NOT NULL COMMENT '预警类型：0洪水、1干旱',
+    `HIWRCH` CHAR(1) NOT NULL COMMENT '预警指标：0水位、1流量、2水量',
+    `WRSTAATR` CHAR(2) NULL COMMENT '统计标志：00瞬时、01一天、10十天',
+    `BUWR` DECIMAL(20,3) NULL COMMENT '蓝色预警阈值；单位随指标为m、m3/s或m3',
+    `YEWR` DECIMAL(20,3) NULL COMMENT '黄色预警阈值',
+    `OGWR` DECIMAL(20,3) NULL COMMENT '橙色预警阈值',
+    `RDWR` DECIMAL(20,3) NULL COMMENT '红色预警阈值',
+    `MODITIME` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)
+        ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '最新修改时间，不使用 SQL Server rowversion',
+    PRIMARY KEY (`STCD`, `HIWRTY`, `HIWRCH`),
+    CONSTRAINT `fk_hiwrch_station` FOREIGN KEY (`STCD`) REFERENCES `ST_STBPRP_B` (`STCD`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='水情预警指标';

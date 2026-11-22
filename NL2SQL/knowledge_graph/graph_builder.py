@@ -1,3 +1,4 @@
+import argparse
 import json
 import re
 from NL2SQL.config.database import create_business_engine
@@ -21,8 +22,8 @@ def _parse_examples(raw: str) -> list[str]:
     return [item.strip() for item in raw.split(",") if item.strip()]
 
 
-def _load_mschema_from_cache() -> MSchema | None:
-    cache_path = os.path.join(
+def _load_mschema_from_cache(cache_path=None) -> MSchema | None:
+    cache_path = cache_path or os.path.join(
         os.path.dirname(os.path.dirname(__file__)),
         "schema_cache",
         "schema.json",
@@ -105,7 +106,7 @@ def _load_mschema_from_cache() -> MSchema | None:
 
     return mschema_obj
 
-def build_schema_graph():
+def build_schema_graph(cache_path=None, require_empty=False):
     """
     从数据库读取表结构，构建 Neo4j 知识图谱
     同时支持从 table_relations.json 加载人工外键关系
@@ -113,8 +114,10 @@ def build_schema_graph():
     # 连接 Neo4j
     graph = create_schema_graph()
 
-    mschema_obj = _load_mschema_from_cache()
+    mschema_obj = _load_mschema_from_cache(cache_path)
     if mschema_obj is None:
+        if cache_path is not None:
+            raise RuntimeError("Selected schema cache is missing or empty")
         print("未命中 schema 缓存，回退为现场连库读取结构...")
         db_engine = create_business_engine()
         schema_engine = SchemaEngine(
@@ -125,8 +128,12 @@ def build_schema_graph():
         mschema_obj = schema_engine.mschema
 
     # 清空旧图谱
-    print("清空 Neo4j 旧图谱数据...")
-    graph.delete_all()
+    if require_empty:
+        if graph.evaluate("MATCH (n) RETURN count(n)") != 0:
+            raise RuntimeError("Target graph must be empty")
+    else:
+        print("清空 Neo4j 旧图谱数据...")
+        graph.delete_all()
 
     # 创建表节点和字段节点（统一加 schema 前缀 + 双向 HAS_COLUMN）
     print("开始写入表和字段节点...")
@@ -188,4 +195,8 @@ def build_schema_graph():
     print("知识图谱构建完成！")
 
 if __name__ == "__main__":
-    build_schema_graph()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--schema-cache")
+    parser.add_argument("--require-empty", action="store_true")
+    args = parser.parse_args()
+    build_schema_graph(args.schema_cache, args.require_empty)

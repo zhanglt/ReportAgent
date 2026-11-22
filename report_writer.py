@@ -9,7 +9,7 @@ from typing import Any, Dict, List, Optional
 
 from openai import OpenAI
 
-from helper import _get_llm_client
+from helper import _chat_completion_text, _get_llm_client
 from template_planner import TemplateStore
 
 try:
@@ -93,9 +93,10 @@ def generate(
         "template_text": template_text,
     }
 
-    resp = llm.chat.completions.create(
+    content = _chat_completion_text(
+        llm,
         model=model,
         messages=[{"role": "system", "content": system}, {"role": "user", "content": json.dumps(payload, ensure_ascii=False)}],
         temperature=0.2,
     )
-    return (resp.choices[0].message.content or "").strip()
+    return content.strip()

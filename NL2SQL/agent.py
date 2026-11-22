@@ -11,7 +11,7 @@ from typing import Dict, List
 from NL2SQL.config.database import create_business_engine, sql_dialect_instructions
 from sqlalchemy.sql import text
 from tabulate import tabulate
-from NL2SQL.config.settings import BASE_URL, DASHSCOPE_APIKEY, NL2SQL_MODEL
+from NL2SQL.config.settings import BASE_URL, DASHSCOPE_APIKEY, NL2SQL_MODEL, NL2SQL_STREAMING
 from NL2SQL.knowledge_graph.graph_query import SchemaGraphQuery
 from NL2SQL.rag.path_config import CHROMA_DB_DIR
 from NL2SQL.rag.retriever import get_field_docs_by_tables, get_rules_by_knowledgecontent, load_retriever
@@ -30,6 +30,7 @@ llm = ChatOpenAI(
     api_key=DASHSCOPE_APIKEY,
     base_url=BASE_URL,
     model=NL2SQL_MODEL,
+    streaming=NL2SQL_STREAMING,
 )
 
 # ===== 惰性初始化（schema + 会话记忆）BEGIN =====

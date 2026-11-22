@@ -101,9 +101,12 @@ def _run_with_mode(goal: str, mode: str) -> GraphState:
     if mode == "mock":
         intent = _guess_regex_intent(goal)
         fake_content = json.dumps({"intent": intent}, ensure_ascii=False)
-        with patch("node._get_llm_client", return_value=(_FakeLLM(fake_content), "fake-model")):
-            with patch("node.extract_request_context", return_value=fake_context):
-                return intent_analysis_node(state)
+        with (
+            patch.dict("os.environ", {"MAIN_LLM_STREAMING": "false"}),
+            patch("node._get_llm_client", return_value=(_FakeLLM(fake_content), "fake-model")),
+            patch("node.extract_request_context", return_value=fake_context),
+        ):
+            return intent_analysis_node(state)
 
     raise ValueError(f"Unknown mode: {mode}")
 

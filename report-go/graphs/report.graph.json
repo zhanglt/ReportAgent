@@ -1,0 +1,4965 @@
+{
+  "id": "report",
+  "name": "report",
+  "component": "Graph",
+  "node_trigger_mode": "AnyPredecessor",
+  "nodes": [
+    {
+      "key": "end",
+      "name": "end",
+      "type": "end",
+      "allow_operate": false,
+      "id": "end",
+      "layoutData": {
+        "position": {
+          "x": 2160,
+          "y": 600
+        }
+      }
+    },
+    {
+      "key": "intent_analysis",
+      "name": "intent_analysis",
+      "type": "Lambda",
+      "component_schema": {
+        "name": "Lambda",
+        "component": "Lambda",
+        "component_source": "",
+        "input_type": {
+          "type": "object",
+          "title": "*report.requestState",
+          "description": "",
+          "properties": {
+            "Current": {
+              "type": "object",
+              "title": "*report.queryTask",
+              "description": "",
+              "properties": {
+                "Attempt": {
+                  "type": "number",
+                  "title": "int",
+                  "description": ""
+                },
+                "Query": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Query",
+                "Attempt"
+              ]
+            },
+            "Done": {
+              "type": "boolean",
+              "title": "bool",
+              "description": ""
+            },
+            "Errors": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Evidence": {
+              "type": "array",
+              "title": "[]report.Evidence",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Evidence",
+                "description": "",
+                "properties": {
+                  "index": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "status": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "supports_conclusion": {
+                    "type": "boolean",
+                    "title": "bool",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "index",
+                  "query",
+                  "status",
+                  "result",
+                  "supports_conclusion"
+                ]
+              }
+            },
+            "Goal": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Iterations": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "LastAttempt": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Meaning": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Now": {
+              "type": "object",
+              "title": "time.Time",
+              "description": ""
+            },
+            "Outline": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Plan": {
+              "type": "array",
+              "title": "[]report.queryTask",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.queryTask",
+                "description": "",
+                "properties": {
+                  "Attempt": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "Query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "Query",
+                  "Attempt"
+                ]
+              }
+            },
+            "Queries": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "QueryTasks": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Region": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Report": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "ReportType": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Results": {
+              "type": "array",
+              "title": "[]report.Result",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Result",
+                "description": "",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "query",
+                  "result"
+                ]
+              }
+            },
+            "Template": {
+              "type": "object",
+              "title": "*report.templateEntry",
+              "description": "",
+              "properties": {
+                "Content": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                },
+                "Name": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Name",
+                "Content"
+              ]
+            },
+            "Time": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Warnings": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            }
+          },
+          "propertyOrder": [
+            "Goal",
+            "Now",
+            "Meaning",
+            "ReportType",
+            "Time",
+            "Region",
+            "Template",
+            "QueryTasks",
+            "Plan",
+            "Queries",
+            "Current",
+            "LastAttempt",
+            "Iterations",
+            "Done",
+            "Results",
+            "Evidence",
+            "Warnings",
+            "Errors",
+            "Outline",
+            "Report"
+          ]
+        },
+        "output_type": {
+          "type": "object",
+          "title": "*report.requestState",
+          "description": "",
+          "properties": {
+            "Current": {
+              "type": "object",
+              "title": "*report.queryTask",
+              "description": "",
+              "properties": {
+                "Attempt": {
+                  "type": "number",
+                  "title": "int",
+                  "description": ""
+                },
+                "Query": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Query",
+                "Attempt"
+              ]
+            },
+            "Done": {
+              "type": "boolean",
+              "title": "bool",
+              "description": ""
+            },
+            "Errors": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Evidence": {
+              "type": "array",
+              "title": "[]report.Evidence",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Evidence",
+                "description": "",
+                "properties": {
+                  "index": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "status": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "supports_conclusion": {
+                    "type": "boolean",
+                    "title": "bool",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "index",
+                  "query",
+                  "status",
+                  "result",
+                  "supports_conclusion"
+                ]
+              }
+            },
+            "Goal": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Iterations": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "LastAttempt": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Meaning": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Now": {
+              "type": "object",
+              "title": "time.Time",
+              "description": ""
+            },
+            "Outline": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Plan": {
+              "type": "array",
+              "title": "[]report.queryTask",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.queryTask",
+                "description": "",
+                "properties": {
+                  "Attempt": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "Query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "Query",
+                  "Attempt"
+                ]
+              }
+            },
+            "Queries": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "QueryTasks": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Region": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Report": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "ReportType": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Results": {
+              "type": "array",
+              "title": "[]report.Result",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Result",
+                "description": "",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "query",
+                  "result"
+                ]
+              }
+            },
+            "Template": {
+              "type": "object",
+              "title": "*report.templateEntry",
+              "description": "",
+              "properties": {
+                "Content": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                },
+                "Name": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Name",
+                "Content"
+              ]
+            },
+            "Time": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Warnings": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            }
+          },
+          "propertyOrder": [
+            "Goal",
+            "Now",
+            "Meaning",
+            "ReportType",
+            "Time",
+            "Region",
+            "Template",
+            "QueryTasks",
+            "Plan",
+            "Queries",
+            "Current",
+            "LastAttempt",
+            "Iterations",
+            "Done",
+            "Results",
+            "Evidence",
+            "Warnings",
+            "Errors",
+            "Outline",
+            "Report"
+          ]
+        },
+        "is_io_type_mutable": false,
+        "version": ""
+      },
+      "allow_operate": true,
+      "id": "intent_analysis",
+      "layoutData": {
+        "position": {
+          "x": 360,
+          "y": 0
+        }
+      }
+    },
+    {
+      "key": "nl2sql",
+      "name": "nl2sql",
+      "type": "Lambda",
+      "component_schema": {
+        "name": "Lambda",
+        "component": "Lambda",
+        "component_source": "",
+        "input_type": {
+          "type": "object",
+          "title": "*report.requestState",
+          "description": "",
+          "properties": {
+            "Current": {
+              "type": "object",
+              "title": "*report.queryTask",
+              "description": "",
+              "properties": {
+                "Attempt": {
+                  "type": "number",
+                  "title": "int",
+                  "description": ""
+                },
+                "Query": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Query",
+                "Attempt"
+              ]
+            },
+            "Done": {
+              "type": "boolean",
+              "title": "bool",
+              "description": ""
+            },
+            "Errors": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Evidence": {
+              "type": "array",
+              "title": "[]report.Evidence",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Evidence",
+                "description": "",
+                "properties": {
+                  "index": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "status": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "supports_conclusion": {
+                    "type": "boolean",
+                    "title": "bool",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "index",
+                  "query",
+                  "status",
+                  "result",
+                  "supports_conclusion"
+                ]
+              }
+            },
+            "Goal": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Iterations": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "LastAttempt": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Meaning": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Now": {
+              "type": "object",
+              "title": "time.Time",
+              "description": ""
+            },
+            "Outline": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Plan": {
+              "type": "array",
+              "title": "[]report.queryTask",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.queryTask",
+                "description": "",
+                "properties": {
+                  "Attempt": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "Query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "Query",
+                  "Attempt"
+                ]
+              }
+            },
+            "Queries": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "QueryTasks": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Region": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Report": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "ReportType": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Results": {
+              "type": "array",
+              "title": "[]report.Result",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Result",
+                "description": "",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "query",
+                  "result"
+                ]
+              }
+            },
+            "Template": {
+              "type": "object",
+              "title": "*report.templateEntry",
+              "description": "",
+              "properties": {
+                "Content": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                },
+                "Name": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Name",
+                "Content"
+              ]
+            },
+            "Time": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Warnings": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            }
+          },
+          "propertyOrder": [
+            "Goal",
+            "Now",
+            "Meaning",
+            "ReportType",
+            "Time",
+            "Region",
+            "Template",
+            "QueryTasks",
+            "Plan",
+            "Queries",
+            "Current",
+            "LastAttempt",
+            "Iterations",
+            "Done",
+            "Results",
+            "Evidence",
+            "Warnings",
+            "Errors",
+            "Outline",
+            "Report"
+          ]
+        },
+        "output_type": {
+          "type": "object",
+          "title": "*report.requestState",
+          "description": "",
+          "properties": {
+            "Current": {
+              "type": "object",
+              "title": "*report.queryTask",
+              "description": "",
+              "properties": {
+                "Attempt": {
+                  "type": "number",
+                  "title": "int",
+                  "description": ""
+                },
+                "Query": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Query",
+                "Attempt"
+              ]
+            },
+            "Done": {
+              "type": "boolean",
+              "title": "bool",
+              "description": ""
+            },
+            "Errors": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Evidence": {
+              "type": "array",
+              "title": "[]report.Evidence",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Evidence",
+                "description": "",
+                "properties": {
+                  "index": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "status": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "supports_conclusion": {
+                    "type": "boolean",
+                    "title": "bool",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "index",
+                  "query",
+                  "status",
+                  "result",
+                  "supports_conclusion"
+                ]
+              }
+            },
+            "Goal": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Iterations": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "LastAttempt": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Meaning": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Now": {
+              "type": "object",
+              "title": "time.Time",
+              "description": ""
+            },
+            "Outline": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Plan": {
+              "type": "array",
+              "title": "[]report.queryTask",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.queryTask",
+                "description": "",
+                "properties": {
+                  "Attempt": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "Query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "Query",
+                  "Attempt"
+                ]
+              }
+            },
+            "Queries": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "QueryTasks": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Region": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Report": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "ReportType": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Results": {
+              "type": "array",
+              "title": "[]report.Result",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Result",
+                "description": "",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "query",
+                  "result"
+                ]
+              }
+            },
+            "Template": {
+              "type": "object",
+              "title": "*report.templateEntry",
+              "description": "",
+              "properties": {
+                "Content": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                },
+                "Name": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Name",
+                "Content"
+              ]
+            },
+            "Time": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Warnings": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            }
+          },
+          "propertyOrder": [
+            "Goal",
+            "Now",
+            "Meaning",
+            "ReportType",
+            "Time",
+            "Region",
+            "Template",
+            "QueryTasks",
+            "Plan",
+            "Queries",
+            "Current",
+            "LastAttempt",
+            "Iterations",
+            "Done",
+            "Results",
+            "Evidence",
+            "Warnings",
+            "Errors",
+            "Outline",
+            "Report"
+          ]
+        },
+        "is_io_type_mutable": false,
+        "version": ""
+      },
+      "allow_operate": true,
+      "id": "nl2sql",
+      "layoutData": {
+        "position": {
+          "x": 1800,
+          "y": 0
+        }
+      }
+    },
+    {
+      "key": "result_review",
+      "name": "result_review",
+      "type": "Lambda",
+      "component_schema": {
+        "name": "Lambda",
+        "component": "Lambda",
+        "component_source": "",
+        "input_type": {
+          "type": "object",
+          "title": "*report.requestState",
+          "description": "",
+          "properties": {
+            "Current": {
+              "type": "object",
+              "title": "*report.queryTask",
+              "description": "",
+              "properties": {
+                "Attempt": {
+                  "type": "number",
+                  "title": "int",
+                  "description": ""
+                },
+                "Query": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Query",
+                "Attempt"
+              ]
+            },
+            "Done": {
+              "type": "boolean",
+              "title": "bool",
+              "description": ""
+            },
+            "Errors": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Evidence": {
+              "type": "array",
+              "title": "[]report.Evidence",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Evidence",
+                "description": "",
+                "properties": {
+                  "index": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "status": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "supports_conclusion": {
+                    "type": "boolean",
+                    "title": "bool",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "index",
+                  "query",
+                  "status",
+                  "result",
+                  "supports_conclusion"
+                ]
+              }
+            },
+            "Goal": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Iterations": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "LastAttempt": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Meaning": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Now": {
+              "type": "object",
+              "title": "time.Time",
+              "description": ""
+            },
+            "Outline": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Plan": {
+              "type": "array",
+              "title": "[]report.queryTask",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.queryTask",
+                "description": "",
+                "properties": {
+                  "Attempt": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "Query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "Query",
+                  "Attempt"
+                ]
+              }
+            },
+            "Queries": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "QueryTasks": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Region": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Report": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "ReportType": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Results": {
+              "type": "array",
+              "title": "[]report.Result",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Result",
+                "description": "",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "query",
+                  "result"
+                ]
+              }
+            },
+            "Template": {
+              "type": "object",
+              "title": "*report.templateEntry",
+              "description": "",
+              "properties": {
+                "Content": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                },
+                "Name": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Name",
+                "Content"
+              ]
+            },
+            "Time": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Warnings": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            }
+          },
+          "propertyOrder": [
+            "Goal",
+            "Now",
+            "Meaning",
+            "ReportType",
+            "Time",
+            "Region",
+            "Template",
+            "QueryTasks",
+            "Plan",
+            "Queries",
+            "Current",
+            "LastAttempt",
+            "Iterations",
+            "Done",
+            "Results",
+            "Evidence",
+            "Warnings",
+            "Errors",
+            "Outline",
+            "Report"
+          ]
+        },
+        "output_type": {
+          "type": "object",
+          "title": "*report.requestState",
+          "description": "",
+          "properties": {
+            "Current": {
+              "type": "object",
+              "title": "*report.queryTask",
+              "description": "",
+              "properties": {
+                "Attempt": {
+                  "type": "number",
+                  "title": "int",
+                  "description": ""
+                },
+                "Query": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Query",
+                "Attempt"
+              ]
+            },
+            "Done": {
+              "type": "boolean",
+              "title": "bool",
+              "description": ""
+            },
+            "Errors": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Evidence": {
+              "type": "array",
+              "title": "[]report.Evidence",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Evidence",
+                "description": "",
+                "properties": {
+                  "index": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "status": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "supports_conclusion": {
+                    "type": "boolean",
+                    "title": "bool",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "index",
+                  "query",
+                  "status",
+                  "result",
+                  "supports_conclusion"
+                ]
+              }
+            },
+            "Goal": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Iterations": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "LastAttempt": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Meaning": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Now": {
+              "type": "object",
+              "title": "time.Time",
+              "description": ""
+            },
+            "Outline": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Plan": {
+              "type": "array",
+              "title": "[]report.queryTask",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.queryTask",
+                "description": "",
+                "properties": {
+                  "Attempt": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "Query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "Query",
+                  "Attempt"
+                ]
+              }
+            },
+            "Queries": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "QueryTasks": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Region": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Report": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "ReportType": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Results": {
+              "type": "array",
+              "title": "[]report.Result",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Result",
+                "description": "",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "query",
+                  "result"
+                ]
+              }
+            },
+            "Template": {
+              "type": "object",
+              "title": "*report.templateEntry",
+              "description": "",
+              "properties": {
+                "Content": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                },
+                "Name": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Name",
+                "Content"
+              ]
+            },
+            "Time": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Warnings": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            }
+          },
+          "propertyOrder": [
+            "Goal",
+            "Now",
+            "Meaning",
+            "ReportType",
+            "Time",
+            "Region",
+            "Template",
+            "QueryTasks",
+            "Plan",
+            "Queries",
+            "Current",
+            "LastAttempt",
+            "Iterations",
+            "Done",
+            "Results",
+            "Evidence",
+            "Warnings",
+            "Errors",
+            "Outline",
+            "Report"
+          ]
+        },
+        "is_io_type_mutable": false,
+        "version": ""
+      },
+      "allow_operate": true,
+      "id": "result_review",
+      "layoutData": {
+        "position": {
+          "x": 2160,
+          "y": 0
+        }
+      }
+    },
+    {
+      "key": "scheduler",
+      "name": "scheduler",
+      "type": "Lambda",
+      "component_schema": {
+        "name": "Lambda",
+        "component": "Lambda",
+        "component_source": "",
+        "input_type": {
+          "type": "object",
+          "title": "*report.requestState",
+          "description": "",
+          "properties": {
+            "Current": {
+              "type": "object",
+              "title": "*report.queryTask",
+              "description": "",
+              "properties": {
+                "Attempt": {
+                  "type": "number",
+                  "title": "int",
+                  "description": ""
+                },
+                "Query": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Query",
+                "Attempt"
+              ]
+            },
+            "Done": {
+              "type": "boolean",
+              "title": "bool",
+              "description": ""
+            },
+            "Errors": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Evidence": {
+              "type": "array",
+              "title": "[]report.Evidence",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Evidence",
+                "description": "",
+                "properties": {
+                  "index": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "status": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "supports_conclusion": {
+                    "type": "boolean",
+                    "title": "bool",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "index",
+                  "query",
+                  "status",
+                  "result",
+                  "supports_conclusion"
+                ]
+              }
+            },
+            "Goal": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Iterations": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "LastAttempt": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Meaning": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Now": {
+              "type": "object",
+              "title": "time.Time",
+              "description": ""
+            },
+            "Outline": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Plan": {
+              "type": "array",
+              "title": "[]report.queryTask",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.queryTask",
+                "description": "",
+                "properties": {
+                  "Attempt": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "Query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "Query",
+                  "Attempt"
+                ]
+              }
+            },
+            "Queries": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "QueryTasks": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Region": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Report": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "ReportType": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Results": {
+              "type": "array",
+              "title": "[]report.Result",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Result",
+                "description": "",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "query",
+                  "result"
+                ]
+              }
+            },
+            "Template": {
+              "type": "object",
+              "title": "*report.templateEntry",
+              "description": "",
+              "properties": {
+                "Content": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                },
+                "Name": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Name",
+                "Content"
+              ]
+            },
+            "Time": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Warnings": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            }
+          },
+          "propertyOrder": [
+            "Goal",
+            "Now",
+            "Meaning",
+            "ReportType",
+            "Time",
+            "Region",
+            "Template",
+            "QueryTasks",
+            "Plan",
+            "Queries",
+            "Current",
+            "LastAttempt",
+            "Iterations",
+            "Done",
+            "Results",
+            "Evidence",
+            "Warnings",
+            "Errors",
+            "Outline",
+            "Report"
+          ]
+        },
+        "output_type": {
+          "type": "object",
+          "title": "*report.requestState",
+          "description": "",
+          "properties": {
+            "Current": {
+              "type": "object",
+              "title": "*report.queryTask",
+              "description": "",
+              "properties": {
+                "Attempt": {
+                  "type": "number",
+                  "title": "int",
+                  "description": ""
+                },
+                "Query": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Query",
+                "Attempt"
+              ]
+            },
+            "Done": {
+              "type": "boolean",
+              "title": "bool",
+              "description": ""
+            },
+            "Errors": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Evidence": {
+              "type": "array",
+              "title": "[]report.Evidence",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Evidence",
+                "description": "",
+                "properties": {
+                  "index": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "status": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "supports_conclusion": {
+                    "type": "boolean",
+                    "title": "bool",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "index",
+                  "query",
+                  "status",
+                  "result",
+                  "supports_conclusion"
+                ]
+              }
+            },
+            "Goal": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Iterations": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "LastAttempt": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Meaning": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Now": {
+              "type": "object",
+              "title": "time.Time",
+              "description": ""
+            },
+            "Outline": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Plan": {
+              "type": "array",
+              "title": "[]report.queryTask",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.queryTask",
+                "description": "",
+                "properties": {
+                  "Attempt": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "Query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "Query",
+                  "Attempt"
+                ]
+              }
+            },
+            "Queries": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "QueryTasks": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Region": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Report": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "ReportType": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Results": {
+              "type": "array",
+              "title": "[]report.Result",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Result",
+                "description": "",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "query",
+                  "result"
+                ]
+              }
+            },
+            "Template": {
+              "type": "object",
+              "title": "*report.templateEntry",
+              "description": "",
+              "properties": {
+                "Content": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                },
+                "Name": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Name",
+                "Content"
+              ]
+            },
+            "Time": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Warnings": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            }
+          },
+          "propertyOrder": [
+            "Goal",
+            "Now",
+            "Meaning",
+            "ReportType",
+            "Time",
+            "Region",
+            "Template",
+            "QueryTasks",
+            "Plan",
+            "Queries",
+            "Current",
+            "LastAttempt",
+            "Iterations",
+            "Done",
+            "Results",
+            "Evidence",
+            "Warnings",
+            "Errors",
+            "Outline",
+            "Report"
+          ]
+        },
+        "is_io_type_mutable": false,
+        "version": ""
+      },
+      "allow_operate": true,
+      "id": "scheduler",
+      "layoutData": {
+        "position": {
+          "x": 1080,
+          "y": 0
+        }
+      }
+    },
+    {
+      "key": "start",
+      "name": "start",
+      "type": "start",
+      "component_schema": {
+        "name": "",
+        "component": "Graph",
+        "component_source": "",
+        "input_type": {
+          "type": "object",
+          "title": "*report.requestState",
+          "description": "",
+          "properties": {
+            "Current": {
+              "type": "object",
+              "title": "*report.queryTask",
+              "description": "",
+              "properties": {
+                "Attempt": {
+                  "type": "number",
+                  "title": "int",
+                  "description": ""
+                },
+                "Query": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Query",
+                "Attempt"
+              ]
+            },
+            "Done": {
+              "type": "boolean",
+              "title": "bool",
+              "description": ""
+            },
+            "Errors": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Evidence": {
+              "type": "array",
+              "title": "[]report.Evidence",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Evidence",
+                "description": "",
+                "properties": {
+                  "index": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "status": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "supports_conclusion": {
+                    "type": "boolean",
+                    "title": "bool",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "index",
+                  "query",
+                  "status",
+                  "result",
+                  "supports_conclusion"
+                ]
+              }
+            },
+            "Goal": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Iterations": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "LastAttempt": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Meaning": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Now": {
+              "type": "object",
+              "title": "time.Time",
+              "description": ""
+            },
+            "Outline": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Plan": {
+              "type": "array",
+              "title": "[]report.queryTask",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.queryTask",
+                "description": "",
+                "properties": {
+                  "Attempt": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "Query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "Query",
+                  "Attempt"
+                ]
+              }
+            },
+            "Queries": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "QueryTasks": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Region": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Report": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "ReportType": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Results": {
+              "type": "array",
+              "title": "[]report.Result",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Result",
+                "description": "",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "query",
+                  "result"
+                ]
+              }
+            },
+            "Template": {
+              "type": "object",
+              "title": "*report.templateEntry",
+              "description": "",
+              "properties": {
+                "Content": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                },
+                "Name": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Name",
+                "Content"
+              ]
+            },
+            "Time": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Warnings": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            }
+          },
+          "propertyOrder": [
+            "Goal",
+            "Now",
+            "Meaning",
+            "ReportType",
+            "Time",
+            "Region",
+            "Template",
+            "QueryTasks",
+            "Plan",
+            "Queries",
+            "Current",
+            "LastAttempt",
+            "Iterations",
+            "Done",
+            "Results",
+            "Evidence",
+            "Warnings",
+            "Errors",
+            "Outline",
+            "Report"
+          ]
+        },
+        "output_type": {
+          "type": "object",
+          "title": "*report.requestState",
+          "description": "",
+          "properties": {
+            "Current": {
+              "type": "object",
+              "title": "*report.queryTask",
+              "description": "",
+              "properties": {
+                "Attempt": {
+                  "type": "number",
+                  "title": "int",
+                  "description": ""
+                },
+                "Query": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Query",
+                "Attempt"
+              ]
+            },
+            "Done": {
+              "type": "boolean",
+              "title": "bool",
+              "description": ""
+            },
+            "Errors": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Evidence": {
+              "type": "array",
+              "title": "[]report.Evidence",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Evidence",
+                "description": "",
+                "properties": {
+                  "index": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "status": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "supports_conclusion": {
+                    "type": "boolean",
+                    "title": "bool",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "index",
+                  "query",
+                  "status",
+                  "result",
+                  "supports_conclusion"
+                ]
+              }
+            },
+            "Goal": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Iterations": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "LastAttempt": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Meaning": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Now": {
+              "type": "object",
+              "title": "time.Time",
+              "description": ""
+            },
+            "Outline": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Plan": {
+              "type": "array",
+              "title": "[]report.queryTask",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.queryTask",
+                "description": "",
+                "properties": {
+                  "Attempt": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "Query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "Query",
+                  "Attempt"
+                ]
+              }
+            },
+            "Queries": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "QueryTasks": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Region": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Report": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "ReportType": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Results": {
+              "type": "array",
+              "title": "[]report.Result",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Result",
+                "description": "",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "query",
+                  "result"
+                ]
+              }
+            },
+            "Template": {
+              "type": "object",
+              "title": "*report.templateEntry",
+              "description": "",
+              "properties": {
+                "Content": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                },
+                "Name": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Name",
+                "Content"
+              ]
+            },
+            "Time": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Warnings": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            }
+          },
+          "propertyOrder": [
+            "Goal",
+            "Now",
+            "Meaning",
+            "ReportType",
+            "Time",
+            "Region",
+            "Template",
+            "QueryTasks",
+            "Plan",
+            "Queries",
+            "Current",
+            "LastAttempt",
+            "Iterations",
+            "Done",
+            "Results",
+            "Evidence",
+            "Warnings",
+            "Errors",
+            "Outline",
+            "Report"
+          ]
+        },
+        "is_io_type_mutable": false,
+        "version": ""
+      },
+      "allow_operate": true,
+      "id": "start",
+      "layoutData": {
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "key": "template_query_and_split",
+      "name": "template_query_and_split",
+      "type": "Lambda",
+      "component_schema": {
+        "name": "Lambda",
+        "component": "Lambda",
+        "component_source": "",
+        "input_type": {
+          "type": "object",
+          "title": "*report.requestState",
+          "description": "",
+          "properties": {
+            "Current": {
+              "type": "object",
+              "title": "*report.queryTask",
+              "description": "",
+              "properties": {
+                "Attempt": {
+                  "type": "number",
+                  "title": "int",
+                  "description": ""
+                },
+                "Query": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Query",
+                "Attempt"
+              ]
+            },
+            "Done": {
+              "type": "boolean",
+              "title": "bool",
+              "description": ""
+            },
+            "Errors": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Evidence": {
+              "type": "array",
+              "title": "[]report.Evidence",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Evidence",
+                "description": "",
+                "properties": {
+                  "index": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "status": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "supports_conclusion": {
+                    "type": "boolean",
+                    "title": "bool",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "index",
+                  "query",
+                  "status",
+                  "result",
+                  "supports_conclusion"
+                ]
+              }
+            },
+            "Goal": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Iterations": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "LastAttempt": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Meaning": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Now": {
+              "type": "object",
+              "title": "time.Time",
+              "description": ""
+            },
+            "Outline": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Plan": {
+              "type": "array",
+              "title": "[]report.queryTask",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.queryTask",
+                "description": "",
+                "properties": {
+                  "Attempt": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "Query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "Query",
+                  "Attempt"
+                ]
+              }
+            },
+            "Queries": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "QueryTasks": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Region": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Report": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "ReportType": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Results": {
+              "type": "array",
+              "title": "[]report.Result",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Result",
+                "description": "",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "query",
+                  "result"
+                ]
+              }
+            },
+            "Template": {
+              "type": "object",
+              "title": "*report.templateEntry",
+              "description": "",
+              "properties": {
+                "Content": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                },
+                "Name": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Name",
+                "Content"
+              ]
+            },
+            "Time": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Warnings": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            }
+          },
+          "propertyOrder": [
+            "Goal",
+            "Now",
+            "Meaning",
+            "ReportType",
+            "Time",
+            "Region",
+            "Template",
+            "QueryTasks",
+            "Plan",
+            "Queries",
+            "Current",
+            "LastAttempt",
+            "Iterations",
+            "Done",
+            "Results",
+            "Evidence",
+            "Warnings",
+            "Errors",
+            "Outline",
+            "Report"
+          ]
+        },
+        "output_type": {
+          "type": "object",
+          "title": "*report.requestState",
+          "description": "",
+          "properties": {
+            "Current": {
+              "type": "object",
+              "title": "*report.queryTask",
+              "description": "",
+              "properties": {
+                "Attempt": {
+                  "type": "number",
+                  "title": "int",
+                  "description": ""
+                },
+                "Query": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Query",
+                "Attempt"
+              ]
+            },
+            "Done": {
+              "type": "boolean",
+              "title": "bool",
+              "description": ""
+            },
+            "Errors": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Evidence": {
+              "type": "array",
+              "title": "[]report.Evidence",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Evidence",
+                "description": "",
+                "properties": {
+                  "index": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "status": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "supports_conclusion": {
+                    "type": "boolean",
+                    "title": "bool",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "index",
+                  "query",
+                  "status",
+                  "result",
+                  "supports_conclusion"
+                ]
+              }
+            },
+            "Goal": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Iterations": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "LastAttempt": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Meaning": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Now": {
+              "type": "object",
+              "title": "time.Time",
+              "description": ""
+            },
+            "Outline": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Plan": {
+              "type": "array",
+              "title": "[]report.queryTask",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.queryTask",
+                "description": "",
+                "properties": {
+                  "Attempt": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "Query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "Query",
+                  "Attempt"
+                ]
+              }
+            },
+            "Queries": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "QueryTasks": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Region": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Report": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "ReportType": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Results": {
+              "type": "array",
+              "title": "[]report.Result",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Result",
+                "description": "",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "query",
+                  "result"
+                ]
+              }
+            },
+            "Template": {
+              "type": "object",
+              "title": "*report.templateEntry",
+              "description": "",
+              "properties": {
+                "Content": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                },
+                "Name": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Name",
+                "Content"
+              ]
+            },
+            "Time": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Warnings": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            }
+          },
+          "propertyOrder": [
+            "Goal",
+            "Now",
+            "Meaning",
+            "ReportType",
+            "Time",
+            "Region",
+            "Template",
+            "QueryTasks",
+            "Plan",
+            "Queries",
+            "Current",
+            "LastAttempt",
+            "Iterations",
+            "Done",
+            "Results",
+            "Evidence",
+            "Warnings",
+            "Errors",
+            "Outline",
+            "Report"
+          ]
+        },
+        "is_io_type_mutable": false,
+        "version": ""
+      },
+      "allow_operate": true,
+      "id": "template_query_and_split",
+      "layoutData": {
+        "position": {
+          "x": 720,
+          "y": 0
+        }
+      }
+    },
+    {
+      "key": "write_report",
+      "name": "write_report",
+      "type": "Lambda",
+      "component_schema": {
+        "name": "Lambda",
+        "component": "Lambda",
+        "component_source": "",
+        "input_type": {
+          "type": "object",
+          "title": "*report.requestState",
+          "description": "",
+          "properties": {
+            "Current": {
+              "type": "object",
+              "title": "*report.queryTask",
+              "description": "",
+              "properties": {
+                "Attempt": {
+                  "type": "number",
+                  "title": "int",
+                  "description": ""
+                },
+                "Query": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Query",
+                "Attempt"
+              ]
+            },
+            "Done": {
+              "type": "boolean",
+              "title": "bool",
+              "description": ""
+            },
+            "Errors": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Evidence": {
+              "type": "array",
+              "title": "[]report.Evidence",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Evidence",
+                "description": "",
+                "properties": {
+                  "index": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "status": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "supports_conclusion": {
+                    "type": "boolean",
+                    "title": "bool",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "index",
+                  "query",
+                  "status",
+                  "result",
+                  "supports_conclusion"
+                ]
+              }
+            },
+            "Goal": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Iterations": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "LastAttempt": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Meaning": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Now": {
+              "type": "object",
+              "title": "time.Time",
+              "description": ""
+            },
+            "Outline": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Plan": {
+              "type": "array",
+              "title": "[]report.queryTask",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.queryTask",
+                "description": "",
+                "properties": {
+                  "Attempt": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "Query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "Query",
+                  "Attempt"
+                ]
+              }
+            },
+            "Queries": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "QueryTasks": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Region": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Report": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "ReportType": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Results": {
+              "type": "array",
+              "title": "[]report.Result",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Result",
+                "description": "",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "query",
+                  "result"
+                ]
+              }
+            },
+            "Template": {
+              "type": "object",
+              "title": "*report.templateEntry",
+              "description": "",
+              "properties": {
+                "Content": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                },
+                "Name": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Name",
+                "Content"
+              ]
+            },
+            "Time": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Warnings": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            }
+          },
+          "propertyOrder": [
+            "Goal",
+            "Now",
+            "Meaning",
+            "ReportType",
+            "Time",
+            "Region",
+            "Template",
+            "QueryTasks",
+            "Plan",
+            "Queries",
+            "Current",
+            "LastAttempt",
+            "Iterations",
+            "Done",
+            "Results",
+            "Evidence",
+            "Warnings",
+            "Errors",
+            "Outline",
+            "Report"
+          ]
+        },
+        "output_type": {
+          "type": "object",
+          "title": "*report.requestState",
+          "description": "",
+          "properties": {
+            "Current": {
+              "type": "object",
+              "title": "*report.queryTask",
+              "description": "",
+              "properties": {
+                "Attempt": {
+                  "type": "number",
+                  "title": "int",
+                  "description": ""
+                },
+                "Query": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Query",
+                "Attempt"
+              ]
+            },
+            "Done": {
+              "type": "boolean",
+              "title": "bool",
+              "description": ""
+            },
+            "Errors": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Evidence": {
+              "type": "array",
+              "title": "[]report.Evidence",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Evidence",
+                "description": "",
+                "properties": {
+                  "index": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "status": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "supports_conclusion": {
+                    "type": "boolean",
+                    "title": "bool",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "index",
+                  "query",
+                  "status",
+                  "result",
+                  "supports_conclusion"
+                ]
+              }
+            },
+            "Goal": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Iterations": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "LastAttempt": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Meaning": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Now": {
+              "type": "object",
+              "title": "time.Time",
+              "description": ""
+            },
+            "Outline": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Plan": {
+              "type": "array",
+              "title": "[]report.queryTask",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.queryTask",
+                "description": "",
+                "properties": {
+                  "Attempt": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "Query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "Query",
+                  "Attempt"
+                ]
+              }
+            },
+            "Queries": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "QueryTasks": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Region": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Report": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "ReportType": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Results": {
+              "type": "array",
+              "title": "[]report.Result",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Result",
+                "description": "",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "query",
+                  "result"
+                ]
+              }
+            },
+            "Template": {
+              "type": "object",
+              "title": "*report.templateEntry",
+              "description": "",
+              "properties": {
+                "Content": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                },
+                "Name": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Name",
+                "Content"
+              ]
+            },
+            "Time": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Warnings": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            }
+          },
+          "propertyOrder": [
+            "Goal",
+            "Now",
+            "Meaning",
+            "ReportType",
+            "Time",
+            "Region",
+            "Template",
+            "QueryTasks",
+            "Plan",
+            "Queries",
+            "Current",
+            "LastAttempt",
+            "Iterations",
+            "Done",
+            "Results",
+            "Evidence",
+            "Warnings",
+            "Errors",
+            "Outline",
+            "Report"
+          ]
+        },
+        "is_io_type_mutable": false,
+        "version": ""
+      },
+      "allow_operate": true,
+      "id": "write_report",
+      "layoutData": {
+        "position": {
+          "x": 1800,
+          "y": 600
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "intent_analysis_to_template_query_and_split",
+      "name": "intent_analysis_to_template_query_and_split",
+      "source_node_key": "intent_analysis",
+      "target_node_key": "template_query_and_split",
+      "sourceWorkflowNodeId": "intent_analysis",
+      "targetWorkflowNodeId": "template_query_and_split"
+    },
+    {
+      "id": "nl2sql_to_result_review",
+      "name": "nl2sql_to_result_review",
+      "source_node_key": "nl2sql",
+      "target_node_key": "result_review",
+      "sourceWorkflowNodeId": "nl2sql",
+      "targetWorkflowNodeId": "result_review"
+    },
+    {
+      "id": "start_to_intent_analysis",
+      "name": "start_to_intent_analysis",
+      "source_node_key": "start",
+      "target_node_key": "intent_analysis",
+      "sourceWorkflowNodeId": "start",
+      "targetWorkflowNodeId": "intent_analysis"
+    },
+    {
+      "id": "template_query_and_split_to_scheduler",
+      "name": "template_query_and_split_to_scheduler",
+      "source_node_key": "template_query_and_split",
+      "target_node_key": "scheduler",
+      "sourceWorkflowNodeId": "template_query_and_split",
+      "targetWorkflowNodeId": "scheduler"
+    },
+    {
+      "id": "write_report_to_end",
+      "name": "write_report_to_end",
+      "source_node_key": "write_report",
+      "target_node_key": "end",
+      "sourceWorkflowNodeId": "write_report",
+      "targetWorkflowNodeId": "end"
+    }
+  ],
+  "branches": [
+    {
+      "id": "from_result_review",
+      "source_node_key": "result_review",
+      "target_node_keys": [
+        "scheduler",
+        "write_report"
+      ],
+      "sourceWorkflowNodeId": "result_review",
+      "targetWorkflowNodeIds": [
+        "scheduler",
+        "write_report"
+      ],
+      "condition": {
+        "input_type": {
+          "type": "object",
+          "title": "*report.requestState",
+          "description": "",
+          "properties": {
+            "Current": {
+              "type": "object",
+              "title": "*report.queryTask",
+              "description": "",
+              "properties": {
+                "Attempt": {
+                  "type": "number",
+                  "title": "int",
+                  "description": ""
+                },
+                "Query": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Query",
+                "Attempt"
+              ]
+            },
+            "Done": {
+              "type": "boolean",
+              "title": "bool",
+              "description": ""
+            },
+            "Errors": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Evidence": {
+              "type": "array",
+              "title": "[]report.Evidence",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Evidence",
+                "description": "",
+                "properties": {
+                  "index": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "status": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "supports_conclusion": {
+                    "type": "boolean",
+                    "title": "bool",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "index",
+                  "query",
+                  "status",
+                  "result",
+                  "supports_conclusion"
+                ]
+              }
+            },
+            "Goal": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Iterations": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "LastAttempt": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Meaning": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Now": {
+              "type": "object",
+              "title": "time.Time",
+              "description": ""
+            },
+            "Outline": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Plan": {
+              "type": "array",
+              "title": "[]report.queryTask",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.queryTask",
+                "description": "",
+                "properties": {
+                  "Attempt": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "Query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "Query",
+                  "Attempt"
+                ]
+              }
+            },
+            "Queries": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "QueryTasks": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Region": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Report": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "ReportType": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Results": {
+              "type": "array",
+              "title": "[]report.Result",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Result",
+                "description": "",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "query",
+                  "result"
+                ]
+              }
+            },
+            "Template": {
+              "type": "object",
+              "title": "*report.templateEntry",
+              "description": "",
+              "properties": {
+                "Content": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                },
+                "Name": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Name",
+                "Content"
+              ]
+            },
+            "Time": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Warnings": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            }
+          },
+          "propertyOrder": [
+            "Goal",
+            "Now",
+            "Meaning",
+            "ReportType",
+            "Time",
+            "Region",
+            "Template",
+            "QueryTasks",
+            "Plan",
+            "Queries",
+            "Current",
+            "LastAttempt",
+            "Iterations",
+            "Done",
+            "Results",
+            "Evidence",
+            "Warnings",
+            "Errors",
+            "Outline",
+            "Report"
+          ]
+        },
+        "is_stream": false
+      },
+      "layoutData": {
+        "position": {
+          "x": 2520,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": "from_scheduler",
+      "source_node_key": "scheduler",
+      "target_node_keys": [
+        "nl2sql",
+        "write_report"
+      ],
+      "sourceWorkflowNodeId": "scheduler",
+      "targetWorkflowNodeIds": [
+        "nl2sql",
+        "write_report"
+      ],
+      "condition": {
+        "input_type": {
+          "type": "object",
+          "title": "*report.requestState",
+          "description": "",
+          "properties": {
+            "Current": {
+              "type": "object",
+              "title": "*report.queryTask",
+              "description": "",
+              "properties": {
+                "Attempt": {
+                  "type": "number",
+                  "title": "int",
+                  "description": ""
+                },
+                "Query": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Query",
+                "Attempt"
+              ]
+            },
+            "Done": {
+              "type": "boolean",
+              "title": "bool",
+              "description": ""
+            },
+            "Errors": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Evidence": {
+              "type": "array",
+              "title": "[]report.Evidence",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Evidence",
+                "description": "",
+                "properties": {
+                  "index": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "status": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "supports_conclusion": {
+                    "type": "boolean",
+                    "title": "bool",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "index",
+                  "query",
+                  "status",
+                  "result",
+                  "supports_conclusion"
+                ]
+              }
+            },
+            "Goal": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Iterations": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "LastAttempt": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Meaning": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Now": {
+              "type": "object",
+              "title": "time.Time",
+              "description": ""
+            },
+            "Outline": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "Plan": {
+              "type": "array",
+              "title": "[]report.queryTask",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.queryTask",
+                "description": "",
+                "properties": {
+                  "Attempt": {
+                    "type": "number",
+                    "title": "int",
+                    "description": ""
+                  },
+                  "Query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "Query",
+                  "Attempt"
+                ]
+              }
+            },
+            "Queries": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            },
+            "QueryTasks": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Region": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Report": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "ReportType": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Results": {
+              "type": "array",
+              "title": "[]report.Result",
+              "description": "",
+              "items": {
+                "type": "object",
+                "title": "report.Result",
+                "description": "",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  },
+                  "result": {
+                    "type": "string",
+                    "title": "string",
+                    "description": ""
+                  }
+                },
+                "propertyOrder": [
+                  "query",
+                  "result"
+                ]
+              }
+            },
+            "Template": {
+              "type": "object",
+              "title": "*report.templateEntry",
+              "description": "",
+              "properties": {
+                "Content": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                },
+                "Name": {
+                  "type": "string",
+                  "title": "string",
+                  "description": ""
+                }
+              },
+              "propertyOrder": [
+                "Name",
+                "Content"
+              ]
+            },
+            "Time": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "Warnings": {
+              "type": "array",
+              "title": "[]string",
+              "description": "",
+              "items": {
+                "type": "string",
+                "title": "string",
+                "description": ""
+              }
+            }
+          },
+          "propertyOrder": [
+            "Goal",
+            "Now",
+            "Meaning",
+            "ReportType",
+            "Time",
+            "Region",
+            "Template",
+            "QueryTasks",
+            "Plan",
+            "Queries",
+            "Current",
+            "LastAttempt",
+            "Iterations",
+            "Done",
+            "Results",
+            "Evidence",
+            "Warnings",
+            "Errors",
+            "Outline",
+            "Report"
+          ]
+        },
+        "is_stream": false
+      },
+      "layoutData": {
+        "position": {
+          "x": 1440,
+          "y": 0
+        }
+      }
+    }
+  ],
+  "input_type": {
+    "type": "object",
+    "title": "*report.requestState",
+    "description": "",
+    "properties": {
+      "Current": {
+        "type": "object",
+        "title": "*report.queryTask",
+        "description": "",
+        "properties": {
+          "Attempt": {
+            "type": "number",
+            "title": "int",
+            "description": ""
+          },
+          "Query": {
+            "type": "string",
+            "title": "string",
+            "description": ""
+          }
+        },
+        "propertyOrder": [
+          "Query",
+          "Attempt"
+        ]
+      },
+      "Done": {
+        "type": "boolean",
+        "title": "bool",
+        "description": ""
+      },
+      "Errors": {
+        "type": "array",
+        "title": "[]string",
+        "description": "",
+        "items": {
+          "type": "string",
+          "title": "string",
+          "description": ""
+        }
+      },
+      "Evidence": {
+        "type": "array",
+        "title": "[]report.Evidence",
+        "description": "",
+        "items": {
+          "type": "object",
+          "title": "report.Evidence",
+          "description": "",
+          "properties": {
+            "index": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "query": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "result": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "status": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "supports_conclusion": {
+              "type": "boolean",
+              "title": "bool",
+              "description": ""
+            }
+          },
+          "propertyOrder": [
+            "index",
+            "query",
+            "status",
+            "result",
+            "supports_conclusion"
+          ]
+        }
+      },
+      "Goal": {
+        "type": "string",
+        "title": "string",
+        "description": ""
+      },
+      "Iterations": {
+        "type": "number",
+        "title": "int",
+        "description": ""
+      },
+      "LastAttempt": {
+        "type": "number",
+        "title": "int",
+        "description": ""
+      },
+      "Meaning": {
+        "type": "string",
+        "title": "string",
+        "description": ""
+      },
+      "Now": {
+        "type": "object",
+        "title": "time.Time",
+        "description": ""
+      },
+      "Outline": {
+        "type": "array",
+        "title": "[]string",
+        "description": "",
+        "items": {
+          "type": "string",
+          "title": "string",
+          "description": ""
+        }
+      },
+      "Plan": {
+        "type": "array",
+        "title": "[]report.queryTask",
+        "description": "",
+        "items": {
+          "type": "object",
+          "title": "report.queryTask",
+          "description": "",
+          "properties": {
+            "Attempt": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Query": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            }
+          },
+          "propertyOrder": [
+            "Query",
+            "Attempt"
+          ]
+        }
+      },
+      "Queries": {
+        "type": "array",
+        "title": "[]string",
+        "description": "",
+        "items": {
+          "type": "string",
+          "title": "string",
+          "description": ""
+        }
+      },
+      "QueryTasks": {
+        "type": "number",
+        "title": "int",
+        "description": ""
+      },
+      "Region": {
+        "type": "string",
+        "title": "string",
+        "description": ""
+      },
+      "Report": {
+        "type": "string",
+        "title": "string",
+        "description": ""
+      },
+      "ReportType": {
+        "type": "string",
+        "title": "string",
+        "description": ""
+      },
+      "Results": {
+        "type": "array",
+        "title": "[]report.Result",
+        "description": "",
+        "items": {
+          "type": "object",
+          "title": "report.Result",
+          "description": "",
+          "properties": {
+            "query": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "result": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            }
+          },
+          "propertyOrder": [
+            "query",
+            "result"
+          ]
+        }
+      },
+      "Template": {
+        "type": "object",
+        "title": "*report.templateEntry",
+        "description": "",
+        "properties": {
+          "Content": {
+            "type": "string",
+            "title": "string",
+            "description": ""
+          },
+          "Name": {
+            "type": "string",
+            "title": "string",
+            "description": ""
+          }
+        },
+        "propertyOrder": [
+          "Name",
+          "Content"
+        ]
+      },
+      "Time": {
+        "type": "string",
+        "title": "string",
+        "description": ""
+      },
+      "Warnings": {
+        "type": "array",
+        "title": "[]string",
+        "description": "",
+        "items": {
+          "type": "string",
+          "title": "string",
+          "description": ""
+        }
+      }
+    },
+    "propertyOrder": [
+      "Goal",
+      "Now",
+      "Meaning",
+      "ReportType",
+      "Time",
+      "Region",
+      "Template",
+      "QueryTasks",
+      "Plan",
+      "Queries",
+      "Current",
+      "LastAttempt",
+      "Iterations",
+      "Done",
+      "Results",
+      "Evidence",
+      "Warnings",
+      "Errors",
+      "Outline",
+      "Report"
+    ]
+  },
+  "output_type": {
+    "type": "object",
+    "title": "*report.requestState",
+    "description": "",
+    "properties": {
+      "Current": {
+        "type": "object",
+        "title": "*report.queryTask",
+        "description": "",
+        "properties": {
+          "Attempt": {
+            "type": "number",
+            "title": "int",
+            "description": ""
+          },
+          "Query": {
+            "type": "string",
+            "title": "string",
+            "description": ""
+          }
+        },
+        "propertyOrder": [
+          "Query",
+          "Attempt"
+        ]
+      },
+      "Done": {
+        "type": "boolean",
+        "title": "bool",
+        "description": ""
+      },
+      "Errors": {
+        "type": "array",
+        "title": "[]string",
+        "description": "",
+        "items": {
+          "type": "string",
+          "title": "string",
+          "description": ""
+        }
+      },
+      "Evidence": {
+        "type": "array",
+        "title": "[]report.Evidence",
+        "description": "",
+        "items": {
+          "type": "object",
+          "title": "report.Evidence",
+          "description": "",
+          "properties": {
+            "index": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "query": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "result": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "status": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "supports_conclusion": {
+              "type": "boolean",
+              "title": "bool",
+              "description": ""
+            }
+          },
+          "propertyOrder": [
+            "index",
+            "query",
+            "status",
+            "result",
+            "supports_conclusion"
+          ]
+        }
+      },
+      "Goal": {
+        "type": "string",
+        "title": "string",
+        "description": ""
+      },
+      "Iterations": {
+        "type": "number",
+        "title": "int",
+        "description": ""
+      },
+      "LastAttempt": {
+        "type": "number",
+        "title": "int",
+        "description": ""
+      },
+      "Meaning": {
+        "type": "string",
+        "title": "string",
+        "description": ""
+      },
+      "Now": {
+        "type": "object",
+        "title": "time.Time",
+        "description": ""
+      },
+      "Outline": {
+        "type": "array",
+        "title": "[]string",
+        "description": "",
+        "items": {
+          "type": "string",
+          "title": "string",
+          "description": ""
+        }
+      },
+      "Plan": {
+        "type": "array",
+        "title": "[]report.queryTask",
+        "description": "",
+        "items": {
+          "type": "object",
+          "title": "report.queryTask",
+          "description": "",
+          "properties": {
+            "Attempt": {
+              "type": "number",
+              "title": "int",
+              "description": ""
+            },
+            "Query": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            }
+          },
+          "propertyOrder": [
+            "Query",
+            "Attempt"
+          ]
+        }
+      },
+      "Queries": {
+        "type": "array",
+        "title": "[]string",
+        "description": "",
+        "items": {
+          "type": "string",
+          "title": "string",
+          "description": ""
+        }
+      },
+      "QueryTasks": {
+        "type": "number",
+        "title": "int",
+        "description": ""
+      },
+      "Region": {
+        "type": "string",
+        "title": "string",
+        "description": ""
+      },
+      "Report": {
+        "type": "string",
+        "title": "string",
+        "description": ""
+      },
+      "ReportType": {
+        "type": "string",
+        "title": "string",
+        "description": ""
+      },
+      "Results": {
+        "type": "array",
+        "title": "[]report.Result",
+        "description": "",
+        "items": {
+          "type": "object",
+          "title": "report.Result",
+          "description": "",
+          "properties": {
+            "query": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            },
+            "result": {
+              "type": "string",
+              "title": "string",
+              "description": ""
+            }
+          },
+          "propertyOrder": [
+            "query",
+            "result"
+          ]
+        }
+      },
+      "Template": {
+        "type": "object",
+        "title": "*report.templateEntry",
+        "description": "",
+        "properties": {
+          "Content": {
+            "type": "string",
+            "title": "string",
+            "description": ""
+          },
+          "Name": {
+            "type": "string",
+            "title": "string",
+            "description": ""
+          }
+        },
+        "propertyOrder": [
+          "Name",
+          "Content"
+        ]
+      },
+      "Time": {
+        "type": "string",
+        "title": "string",
+        "description": ""
+      },
+      "Warnings": {
+        "type": "array",
+        "title": "[]string",
+        "description": "",
+        "items": {
+          "type": "string",
+          "title": "string",
+          "description": ""
+        }
+      }
+    },
+    "propertyOrder": [
+      "Goal",
+      "Now",
+      "Meaning",
+      "ReportType",
+      "Time",
+      "Region",
+      "Template",
+      "QueryTasks",
+      "Plan",
+      "Queries",
+      "Current",
+      "LastAttempt",
+      "Iterations",
+      "Done",
+      "Results",
+      "Evidence",
+      "Warnings",
+      "Errors",
+      "Outline",
+      "Report"
+    ]
+  }
+}

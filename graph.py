@@ -130,29 +130,40 @@ async def _execute_with_progress(websocket, init: GraphState) -> GraphState:
 
     这里没有改节点逻辑本身，只是把“可观测性”放到了执行层。
     """
+    # 从初始状态执行意图分析；_run_node 会推送节点开始和完成事件。
     state = await _run_node(websocket, "intent_analysis", intent_analysis_node, init)
+    # 查询报告模板并拆分查询任务，使用上一步返回的状态继续执行。
     state = await _run_node(
-        websocket,
-        "template_query_and_split",
-        template_query_and_split_node,
-        state,
+        websocket,  # 用于向前端发送节点进度的连接。
+        "template_query_and_split",  # 进度事件中使用的节点名称。
+        template_query_and_split_node,  # 实际执行的节点函数。
+        state,  # 传入节点的当前状态。
     )
+    # 根据当前任务和结果安排下一步查询或报告生成。
     state = await _run_node(websocket, "scheduler", scheduler_node, state)
 
+    # 持续处理调度结果，直到进入报告生成分支。
     while True:
+        # 根据调度后的状态选择下一步路由。
         route = route_after_scheduler(state)
+        # 调度器选择写报告时，执行报告生成并结束流程。
         if route == "write_report":
             state = await _run_node(websocket, "write_report", write_report_node, state)
             return state
 
+        # 执行当前查询任务，将自然语言转换为 SQL 并处理查询结果。
         state = await _run_node(websocket, "nl2sql", nl2sql_node, state)
+        # 检查查询结果，并更新后续路由所需的状态。
         state = await _run_node(websocket, "result_review", result_review_node, state)
 
+        # 根据结果检查后的状态选择继续调度还是生成报告。
         review_route = route_after_result_review(state)
         if review_route == "write_report":
+            # 检查结果要求结束查询时，生成报告并返回最终状态。
             state = await _run_node(websocket, "write_report", write_report_node, state)
             return state
 
+        # 尚需处理其他任务或重试时，再次调度并进入下一轮循环。
         state = await _run_node(websocket, "scheduler", scheduler_node, state)
 
 
@@ -193,7 +204,10 @@ async def handle_websocket(websocket):
                 "outline": [],
                 "review_retry_counts": {},
             }
+            # 告知前端已开始处理，并在事件中回传本次用户输入。
             await _send_event(websocket, "start", message=user_text)
+            # 使用初始状态执行报告生成流程，期间通过同一连接推送各阶段进度。
+            # 等待流程结束后，获取包含最终报告和处理结果的状态。
             final_state = await _execute_with_progress(websocket, init)
             await _send_event(
                 websocket,

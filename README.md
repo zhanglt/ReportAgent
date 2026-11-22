@@ -1,5 +1,7 @@
 # Report-Agent —  基于 NL2SQL 的报告生成智能体 
 
+Go / Eino 实现的启动方式与 VS Code 工作流展示步骤见 [report-go 使用说明](report-go/README.md)。
+
 ## 一、项目简介
 
 本项目面向水文局业务场景，构建了一个基于自然语言查询与大模型协同的报告生成智能体。系统能够理解用户提出的水情报告需求，自动完成意图识别、模板匹配、查询规划、数据获取与报告写作，将传统依赖人工整理的数据查询与文字编写流程转化为自动化、可追溯的智能生成流程，提升水文业务报告编制效率与规范性。 
@@ -218,9 +220,11 @@ pip install -r requirements.txt
 | `DB_URI` | NL2SQL 业务数据库的 SQLAlchemy 连接串，支持 MySQL 8.0 和 SQL Server |
 | `DB_SCHEMA` | MySQL 数据库名，留空时使用 `DB_URI` 中的数据库；SQL Server 填 schema（如 `dbo`） |
 | `DASHSCOPE_APIKEY` | 阿里百炼 API Key，用于调用 Qwen 模型 |
-| `BASE_URL` | DashScope 兼容接口地址 |
+| `BASE_URL` | OpenAI 兼容接口的基础地址，填写服务商要求的版本路径，例如 `https://example.com/openai/v1` |
 | `NL2SQL_MODEL` | NL2SQL 模块使用的模型名称 |
+| `NL2SQL_STREAMING` | 默认关闭。网关要求模型请求携带 `stream=true` 时设为 `true`，`/nl2sql` 仍返回 JSON |
 | `MODEL` | 主流程使用的模型名称 |
+| `MAIN_LLM_STREAMING` | 默认关闭。网关要求模型请求携带 `stream=true` 时设为 `true`，WebSocket 仍按原有协议发送阶段和完整报告 |
 | `NL2SQL_URL` | NL2SQL 服务接口完整地址，留空时使用 `http://127.0.0.1:8001/nl2sql` |
 | `CHROMA_DB_DIR` | 数据库字段说明的Chroma 向量库目录 |
 | `RULES_CHROMA_DB_DIR` | 规则知识库的 Chroma 向量库目录 |
@@ -351,6 +355,81 @@ python graph.py
 ```text
 生成今天的水情日报
 ```
+
+### 6.3 Go 工作流与 VS Code Eino 插件
+
+`report-go/internal/report/workflow.go` 使用 Eino Graph 编排六个报告节点，图名称为 `report`。VS Code 的 **Eino Dev** 插件提供两个入口：**Eino Workflow** 用于导入、查看和编辑 Graph Schema；**可视化调试**用于连接运行中的 Go 进程，查看实际编排和节点执行结果。
+
+#### 启动调试服务
+
+准备 Go 1.24 或更高版本，在 VS Code 安装 **Eino Dev**（扩展 ID：`eino.eino-dev`）。使用 Remote SSH / WSL 时，在运行 Go 进程的远程环境安装插件。报告进程会加载仓库根目录的 `.env`，需要已有的 `DASHSCOPE_APIKEY` 等模型配置；完整执行流程还需要可用的 NL2SQL 服务和模板资源。
+
+从仓库根目录运行，保持进程运行：
+
+```bash
+EINO_DEV=1 go -C report-go run ./cmd/report-agent
+```
+
+入口在 `report.NewWorkflow` 编译图之前调用 `devops.Init`，将编译后的 `report` 注册到插件可访问的调试服务。启动后无需发送报告请求即可查看拓扑。
+
+| 环境变量 | 默认值 | 作用 |
+| --- | --- | --- |
+| `EINO_DEV` | 关闭 | 设为 `1` 启用 Eino Dev 调试服务 |
+| `EINO_DEV_IP` | `127.0.0.1` | 调试服务监听 IP |
+| `EINO_DEV_PORT` | `52538` | 调试端口，范围 1–65535 |
+| `REPORT_LISTEN_ADDR` | `127.0.0.1:18080` | Go 报告 WebSocket 与健康检查地址 |
+
+这些配置可通过环境变量或根目录 `.env` 设置，已导出的环境变量优先。若端口被占用，调整对应变量后重启进程，并同步修改插件连接地址。
+
+#### 连接实际工作流与节点调试
+
+1. 按 `Ctrl+Shift+P`，执行 **Open Eino Dev**。
+2. 点击左侧调试入口，配置 IP `127.0.0.1`、Port `52538`。
+3. 连接成功后选择 **report**，查看六个业务节点、两个条件分支和查询循环。
+4. 从 START 点击 **Test Run**，输入状态对象，例如：
+
+```json
+{"Goal":"查询四川省昨天的降雨情况"}
+```
+
+省略 `Now` 时使用当前时间。`Emit` 是 WebSocket 回调，已从 JSON 状态中排除，插件调用节点时可以省略。插件会展示节点输入、输出和耗时；完整流程会调用当前配置的模型与查询服务。
+
+若只检查节点调试是否可用，可从 `write_report` 节点开始，输入以下固定结果，此路径无需调用模型和数据库：
+
+```json
+{"Meaning":"query","Results":[{"query":"示例查询","result":"用于验证插件的固定结果"}]}
+```
+
+#### 在 Eino Workflow 中导入 Graph Schema
+
+已导出的文件为 [report.graph.json](report-go/graphs/report.graph.json)。打开 **Eino Workflow** 页面，点击 **Import/Export Graph Schema → Import Graph**，将该文件的完整 JSON 内容粘贴到弹窗中并确认，即可查看和编辑拓扑。导入已有文件无需运行 Go 服务。
+
+工作流源码变化后，先重启启用了 `EINO_DEV` 的报告进程，再从仓库根目录重新导出：
+
+```bash
+python scripts/export_report_graph.py
+
+# 使用其他调试端口或输出位置
+python scripts/export_report_graph.py \
+  --url http://127.0.0.1:52539 \
+  --output /tmp/report.graph.json
+```
+
+导出脚本从已编译的 `report` 读取真实画布，转换为编排页面要求的节点 ID、普通边、条件分支和布局数据。Graph Schema 保留六个业务节点、START/END、两个分支及循环连线；Go 节点函数、依赖注入和分支判断函数仍由源码提供。编辑 schema 后需要手动同步 Go 源码，schema 本身不能完整还原报告业务实现。
+
+#### 连接检查与排查
+
+```bash
+curl -fsS http://127.0.0.1:52538/eino/devops/ping
+curl -fsS http://127.0.0.1:52538/eino/devops/debug/v1/graphs
+curl -fsS http://127.0.0.1:18080/health
+```
+
+前两个接口应分别返回包含 `pong` 的响应和包含 `report` 的图列表；健康检查用于确认报告进程就绪，不代表模型或 NL2SQL 依赖健康。
+
+若编排页提示 **No graph selected**，通过导入菜单导入 schema，或从底部下拉框选择已导入的图。若要查看运行中的图，切换到左侧调试入口后连接服务。调试图列表为空时，检查 `EINO_DEV=1`、工作流编译日志，并确认重启的是修改后的 Go 程序。插件与进程分处本机和远程服务器时，可通过 VS Code“端口”面板转发 `52538`，再连接本机对应的转发端口。
+
+更多说明见 [Go 工作流 README](report-go/README.md)；插件使用方式可参考 [Eino 官方可视化调试指南](https://www.cloudwego.io/zh/docs/eino/core_modules/devops/visual_debug_plugin_guide/)。
 
 ## 七、API 接口
 

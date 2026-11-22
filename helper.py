@@ -39,6 +39,29 @@ def _get_llm_client(default_model: str = "qwen3-max") -> tuple[OpenAI, str]:
     return OpenAI(api_key=api_key, base_url=base_url), model
 
 
+def _chat_completion_text(client: OpenAI, **kwargs: Any) -> str:
+    """调用聊天接口并返回首个候选回复的文本。
+
+    kwargs 原样传给 chat.completions.create，例如 model 和 messages。
+    MAIN_LLM_STREAMING 为 1、true、yes 或 on（忽略大小写）时，
+    通过流式接口接收片段，并将索引为 0 的候选回复拼成完整字符串；
+    其他情况下直接读取非流式响应。没有文本内容时返回空字符串。
+    """
+    streaming = os.getenv("MAIN_LLM_STREAMING", "").strip().lower() in {"1", "true", "yes", "on"}
+    if not streaming:
+        response = client.chat.completions.create(**kwargs)
+        return response.choices[0].message.content or ""
+
+    # 流式响应需要逐块收集文本；上下文退出时关闭响应流。
+    with client.chat.completions.create(stream=True, **kwargs) as chunks:
+        return "".join(
+            choice.delta.content
+            for chunk in chunks
+            for choice in chunk.choices
+            if choice.index == 0 and choice.delta.content
+        )
+
+
 def _fmt(d: datetime) -> str:
     """将日期格式化为 YYYY-MM-DD。"""
     return d.strftime("%Y-%m-%d")

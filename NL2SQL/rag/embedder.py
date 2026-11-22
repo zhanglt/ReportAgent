@@ -1,6 +1,6 @@
 # 构建向量知识库
 
-import os
+import argparse
 from pathlib import Path
 from sentence_transformers import SentenceTransformer
 from langchain_community.vectorstores import Chroma
@@ -8,7 +8,6 @@ from langchain_core.embeddings import Embeddings
 from langchain.schema import Document
 from NL2SQL.rag.loader import parse_schema_md_by_table, parse_knowledge_from_db
 from NL2SQL.rag.path_config import CHROMA_DB_DIR, HF_MODEL_DIR, RULES_CHROMA_DB_DIR, ensure_dirs
-import shutil
 
 ensure_dirs()
 class LocalBGEEmbeddings(Embeddings):
@@ -26,6 +25,8 @@ def build_chroma_from_md(md_path: str, persist_path: str = str(CHROMA_DB_DIR)):
         md_text = f.read()
 
     parsed_docs = parse_schema_md_by_table(md_text)
+    if not parsed_docs:
+        raise ValueError("No table documents found in schema documentation")
     documents = [
         Document(page_content=doc["content"], metadata=doc["metadata"])
         for doc in parsed_docs
@@ -71,5 +72,23 @@ def build_chroma_from_knowledge(persist_path: str = str(RULES_CHROMA_DB_DIR)):
 
 
 if __name__ == "__main__":
-    build_chroma_from_md(str(Path(__file__).resolve().parents[1] / "docs" / "schema_doc.md"))
-    # build_chroma_from_knowledge()
+    parser = argparse.ArgumentParser()
+    targets = parser.add_mutually_exclusive_group()
+    targets.add_argument("--rules-output", type=Path, metavar="NEW_DIRECTORY")
+    targets.add_argument("--fields-output", type=Path, metavar="NEW_DIRECTORY")
+    args = parser.parse_args()
+    schema_doc = str(Path(__file__).resolve().parents[1] / "docs" / "schema_doc.md")
+    output = args.rules_output or args.fields_output
+    if output is not None:
+        output = output.resolve()
+        try:
+            output.mkdir(parents=True, exist_ok=False)
+        except FileExistsError:
+            parser.error("output must be a new directory")
+    if args.rules_output:
+        if build_chroma_from_knowledge(str(output)) is None:
+            raise SystemExit("No business rules indexed")
+    elif args.fields_output:
+        build_chroma_from_md(schema_doc, str(output))
+    else:
+        build_chroma_from_md(schema_doc)

@@ -1,4 +1,4 @@
-import os
+import argparse
 import json
 import time
 from pathlib import Path
@@ -10,10 +10,11 @@ from NL2SQL.schema_engine.schema_engine import SchemaEngine
 
 def main():
     project_root = Path(__file__).resolve().parent
-    cache_dir = project_root / "schema_cache"
-    # 确保递归创建目录，避免上层目录缺失时报错
-    cache_dir.mkdir(parents=True, exist_ok=True)
-    cache_file = cache_dir / "schema.json"
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output", type=Path, default=project_root / "schema_cache" / "schema.json")
+    args = parser.parse_args()
+    cache_file = args.output
+    cache_file.parent.mkdir(parents=True, exist_ok=True)
 
     print("正在生成 schema 缓存（现场连库）...")
     db_engine = create_business_engine()
