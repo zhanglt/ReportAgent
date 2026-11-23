@@ -3,6 +3,7 @@ package client
 import (
 	"context"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -18,9 +19,17 @@ type Model struct {
 	stream     bool
 }
 
-func NewModel(ctx context.Context, httpClient *http.Client, baseURL, apiKey, name string, stream bool) (*Model, error) {
+func NewModel(ctx context.Context, httpClient *http.Client, baseURL, apiKey, name, reasoningEffort string, stream bool) (*Model, error) {
+	reasoningEffort = strings.TrimSpace(reasoningEffort)
+	// 留空时由上游决定默认强度，具体模型支持的档位由服务端校验。
+	switch reasoningEffort {
+	case "", "none", "minimal", "low", "medium", "high", "xhigh", "max":
+	default:
+		return nil, fmt.Errorf("无效的模型推理强度 %q，可选值：none、minimal、low、medium、high、xhigh、max", reasoningEffort)
+	}
 	config := einoopenai.ChatModelConfig{
 		APIKey: apiKey, BaseURL: strings.TrimRight(baseURL, "/"), Model: name, HTTPClient: httpClient,
+		ReasoningEffort: einoopenai.ReasoningEffortLevel(reasoningEffort),
 	}
 	text, err := einoopenai.NewChatModel(ctx, &config)
 	if err != nil {

@@ -1,30 +1,42 @@
+When you reply or any output ,Please translate to chinese
+附注：说明性内容以中文为主，但代码标识、HTTP名称、配置项、路径、架构术语及业内通用英文会按准确性需要保留，不做生硬翻译。
+
+在网络请求失败时，用 http://127.0.0.1:81 作为proxy尝试。
+
+
 # Repository Guidelines
 
-## Project Structure
+## Project Structure & Module Organization
 
-The root Python modules implement report generation. `graph.py` defines the LangGraph workflow and serves WebSocket requests. `node.py` implements workflow steps, `state.py` defines shared state, and `template_planner.py` and `report_writer.py` handle report planning and writing. Report templates live in `templates/`.
+The active Go module is `report-go/` (Go 1.24). Its `cmd/report-agent/` entry point serves the report workflow; `cmd/nl2sql/` serves natural-language SQL queries. Under `internal/`, `report/` contains Eino workflow nodes and prompts, `nl2sql/` implements query tools and validation, `client/` wraps upstream services, and `transport/` handles WebSockets. Shared settings and session handling live in `config/` and `querysession/`.
 
-`NL2SQL/` contains the FastAPI query service, database configuration, schema cache, retrieval code in `rag/`, and Neo4j join planning in `knowledge_graph/`. Update `NL2SQL/docs/schema_doc.md` when field descriptions change. Tests and interactive checks live in `test/`.
+Tests sit alongside Go source as `*_test.go`. Report templates live in `templates/`, architecture notes in `docs/`, and the exported workflow schema in `report-go/graphs/`. This checkout has pending deletions of legacy Python sources and launch scripts; verify paths before using older README commands.
 
-## Local Development
+## Build, Test, and Development Commands
 
-Run commands from the repository root. Use a Python virtual environment, install dependencies with `python -m pip install -r requirements.txt`, and configure `.env` using the README. The pinned requirements include platform-specific Windows and CUDA packages, so use compatible packages for your development platform.
+Run these from `report-go/`:
 
-- `python -m uvicorn NL2SQL.agent_mod:app --host 127.0.0.1 --port 8001` starts the query service. Check it with `curl http://127.0.0.1:8001/health`.
-- `python graph.py` starts the report workflow at `ws://localhost:8080`.
+- `go build ./...` compiles all packages and checks both entry points.
+- `go test ./...` runs the Go test suite.
+- `go vet ./...` checks common Go mistakes.
+- `gofmt -w <changed.go>` formats edited Go files.
+- `REPORT_REPO_ROOT="$(pwd)/.." go run ./cmd/nl2sql` starts the query service.
+- `REPORT_REPO_ROOT="$(pwd)/.." NL2SQL_URL=http://127.0.0.1:18081/nl2sql go run ./cmd/report-agent` starts reports against Go NL2SQL.
 
-## Coding Style
+Set `REPORT_REPO_ROOT` explicitly: automatic discovery currently looks for the deleted `graph.py`. Startup also requires configured models and service resources; NL2SQL needs MySQL, a schema cache, and a reachable retrieval service. Check `/health` on ports `18080` and `18081`, but verify dependencies separately.
 
-Use four spaces for indentation, `snake_case` for Python functions and variables, `PascalCase` for classes, and `UPPER_SNAKE_CASE` for environment variables. Follow nearby type annotations and keep shared workflow fields in `state.py`.
+## Coding Style & Naming Conventions
 
-## Testing
+Use standard Go formatting with tabs and `gofmt` import ordering. Keep package names lowercase, exported identifiers in PascalCase, and private identifiers in camelCase. Follow existing package boundaries; propagate contextual errors and pass cancellation through `context.Context`.
 
-Run automated `unittest` cases with `python -m unittest discover -s test -p 'test_*.py'`. Name new test files and methods `test_*`. Run `python test/test_node_1.py` or `python test/test_node_5.py` and select `mock` or `fallback` for interactive checks without a live model. The node 2 and node 6 scripts call live services.
+## Testing Guidelines
 
-## Commits and Pull Requests
+Use Go's `testing` package, `TestXxx` names, table-driven cases, and `httptest` for HTTP dependencies. Cover SQL restrictions, retrieval failures, and session isolation when changing query behavior. No coverage threshold is configured. Describe live-service checks separately from unit tests.
 
-Recent commits use short imperative subjects such as "Ignore local test data." In pull requests, explain the behavior change, list verification commands and results, and link related issues when available. Call out changes to configuration, schemas, or API responses.
+## Commit & Pull Request Guidelines
 
-## Configuration and Data
+Recent commits use short action-oriented subjects, such as `Migrate ReportAgent workflows to Go and Eino`; follow that style. PRs should explain behavior changes, link relevant issues, and list validation results and required configuration. Include screenshots for workflow visualization changes. Preserve unrelated worktree edits.
 
-Keep credentials in local environment variables or `.env`. Use disposable databases for initialization. The graph builder clears the configured Neo4j database, and `NL2SQL/waterknow.sql` drops existing tables.
+## Security & Configuration
+
+Keep credentials in the ignored root `.env` or environment variables. Never commit secrets, database dumps, local model caches, or compiled binaries. Document new settings and resource requirements alongside their consumers.

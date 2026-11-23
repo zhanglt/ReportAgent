@@ -2,6 +2,42 @@
 
 `internal/report/workflow.go` 使用 Eino Graph 编排报告流程，包含六个业务节点、条件分支和查询循环。启动与迁移说明见[重构文档](../docs/eino-refactor-plan.md)。
 
+## 启动 Go 报告和查询服务
+
+从仓库根目录执行以下命令。脚本依次启动 Python 检索、Go NL2SQL 和 Go 报告服务，并配置报告使用的查询地址。
+
+```bash
+REPORT_LISTEN_ADDR=127.0.0.1:18080 \
+  NL2SQL_GO_LISTEN_ADDR=127.0.0.1:18081 \
+  scripts/run_report_stack.sh go
+```
+
+分别启动时，先启动 Python 检索（默认端口 `18082`）和 Go NL2SQL（默认端口 `18081`），再以 `NL2SQL_URL=http://127.0.0.1:18081/nl2sql` 启动报告进程。报告程序默认访问 `8001`，适合该端口已运行 Python NL2SQL 的配置。报告的 `/health` 仅检查自身，查询和检索分别可通过 `http://127.0.0.1:18081/health` 和 `http://127.0.0.1:18082/health` 检查。
+
+单独运行 Go NL2SQL 时，也必须保持 Python 检索服务运行。在仓库根目录、已安装 Python 依赖的环境中执行：
+
+```bash
+python -m uvicorn NL2SQL.rag.service:app --host 127.0.0.1 --port 18082
+curl -fsS http://127.0.0.1:18082/health
+```
+
+Go 通过 `NL2SQL_RETRIEVAL_URL` 连接检索服务（默认 `http://127.0.0.1:18082`）。若提示字段说明或业务规则检索服务不可用，检查该地址、Python 启动日志及 BGE/Chroma 索引配置。查询服务自身的 `/health` 返回成功，并不代表检索依赖可用。
+
+`REPORT_MODEL_TIMEOUT_SECONDS` 控制单次报告模型调用（默认 180 秒），`REPORT_TIMEOUT_SECONDS` 控制整份报告（默认 1200 秒）。失败日志中的 `stage_timeout=true` 表示当前阶段收到超时错误，`timeout=true` 表示整份报告达到期限。
+
+## 模型推理强度
+
+在根目录 `.env` 中分别设置报告模型与 NL2SQL 模型的推理强度：
+
+```dotenv
+MODEL_REASONING_EFFORT=high
+NL2SQL_REASONING_EFFORT=medium
+```
+
+`MODEL_REASONING_EFFORT` 对应 `MODEL`，`NL2SQL_REASONING_EFFORT` 对应 `NL2SQL_MODEL`，两者独立配置。修改后重启相应 Go 服务。未设置或留空时不发送该字段，使用上游默认行为。
+
+客户端接受 `none`、`minimal`、`low`、`medium`、`high`、`xhigh`、`max`，具体模型和兼容网关支持的档位需单独确认；不支持时可能返回 HTTP 400。强度越高通常耗时及 token 消耗越大，必要时调整对应模型的调用超时。参数通过 Chat Completions 的 `reasoning_effort` 字段发送，适用于普通输出、JSON 输出、工具调用及流式调用。第三方网关是否实际执行该参数需要实测。
+
 ## 在 VS Code Eino Dev 中展示
 
 在仓库根目录运行，使用已有的 `.env` 配置：

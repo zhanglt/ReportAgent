@@ -64,7 +64,8 @@ func WebSocket(workflow *report.Workflow, timeout time.Duration, origins []strin
 						if errors.As(err, &stageErr) {
 							stage = stageErr.Stage
 						}
-						slog.Warn("report failed", "stage", stage, "timeout", deadlineExceeded)
+						slog.Warn("report failed", "stage", stage, "timeout", deadlineExceeded,
+							"stage_timeout", errors.Is(err, context.DeadlineExceeded))
 						message := "处理请求时出错: 报告流程执行失败"
 						if deadlineExceeded {
 							message = "处理请求时出错: 报告流程执行超时"

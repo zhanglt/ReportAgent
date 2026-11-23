@@ -80,9 +80,14 @@ func run(ctx context.Context) error {
 	if err != nil {
 		return err
 	}
+	modelTimeout, err := config.PositiveInt("REPORT_MODEL_TIMEOUT_SECONDS", 180)
+	if err != nil {
+		return err
+	}
 	// 模型超时约束单次调用，完整报告的时限由 WebSocket 层管理。
-	modelClient, err := client.NewModel(ctx, &http.Client{Timeout: 3 * time.Minute},
-		baseURL, apiKey, config.Setting("MODEL", "qwen3-max"), config.Enabled("MAIN_LLM_STREAMING"))
+	modelClient, err := client.NewModel(ctx, &http.Client{Timeout: time.Duration(modelTimeout) * time.Second},
+		baseURL, apiKey, config.Setting("MODEL", "qwen3-max"),
+		config.Setting("MODEL_REASONING_EFFORT", ""), config.Enabled("MAIN_LLM_STREAMING"))
 	if err != nil {
 		return err
 	}
@@ -93,9 +98,13 @@ func run(ctx context.Context) error {
 	if !filepath.IsAbs(templatesDir) {
 		templatesDir = filepath.Join(root, templatesDir)
 	}
+	// 使用模型客户端和 NL2SQL 客户端编译可复用的报告工作流，每次报告请求使用独立状态。
 	workflow, err := report.NewWorkflow(ctx, modelClient, queryClient, report.Options{
+		// 模板目录用于报告规划，数据库结构文档为查询任务拆分提供字段信息。
 		TemplatesDir: templatesDir, SchemaPath: config.SchemaPath(root),
+		// 限制参与规划的候选模板数量，以及撰写报告时传给模型的单条查询结果字符数。
 		MaxTemplateCandidates: maxCandidates, MaxCharsPerResult: maxChars,
+		// 开启后，查询失败时允许重新安排一次查询。
 		RetryQueryErrors: config.Enabled("REPORT_RETRY_QUERY_ERRORS"),
 	})
 	if err != nil {

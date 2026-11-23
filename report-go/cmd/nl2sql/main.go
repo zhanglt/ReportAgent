@@ -29,6 +29,7 @@ import (
 )
 
 func main() {
+	log.Printf("-----------------------------------")
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 	if err := run(ctx); err != nil {
@@ -85,7 +86,8 @@ func run(ctx context.Context) error {
 		return err
 	}
 	mdl, err := client.NewModel(ctx, &http.Client{Timeout: time.Duration(modelTimeout) * time.Second}, modelURL, key,
-		config.Setting("NL2SQL_MODEL", "qwen3-max"), config.Enabled("NL2SQL_STREAMING"))
+		config.Setting("NL2SQL_MODEL", "qwen3-max"),
+		config.Setting("NL2SQL_REASONING_EFFORT", ""), config.Enabled("NL2SQL_STREAMING"))
 	if err != nil {
 		return err
 	}

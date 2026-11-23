@@ -58,6 +58,8 @@ type toolState struct {
 	rulesRead bool
 	truncated bool
 	empty     bool
+	// 检索依赖不可用时停止本轮，避免模型重复调用工具直到达到上限。
+	dependencyFailure string
 }
 
 // Answer 携带答复文本。会话层依据完成标记决定是否保存这一轮。
@@ -119,6 +121,10 @@ func (a *Agent) Query(ctx context.Context, question string, history []Exchange) 
 			if ctx.Err() != nil {
 				return Answer{}, ctx.Err()
 			}
+			if state.dependencyFailure != "" {
+				slog.Warn("NL2SQL retrieval unavailable", "tool", call.Function.Name)
+				return Answer{Text: "查询失败：" + state.dependencyFailure}, nil
+			}
 			slog.Info("NL2SQL tool", "name", call.Function.Name)
 			messages = append(messages, schema.ToolMessage(output, call.ID))
 		}
@@ -156,6 +162,7 @@ func (a *Agent) call(ctx context.Context, question string, state *toolState, cal
 		}
 		docs, err := a.Retrieval.Documents(ctx, "/field-docs", input)
 		if err != nil {
+			state.dependencyFailure = "字段说明检索服务不可用，请检查 Python 检索服务及 NL2SQL_RETRIEVAL_URL 配置。"
 			return toolError("字段说明检索失败")
 		}
 		// 字段检索正常返回即表示已完成检索。没有命中文档时，提示模型依据 Schema 判断。
@@ -241,6 +248,7 @@ func (a *Agent) call(ctx context.Context, question string, state *toolState, cal
 		// 本机 Python 服务使用 BGE 和 Chroma 检索规则，输入始终是用户原问题。
 		docs, err := a.Retrieval.Documents(ctx, "/rules", rulesInput{Query: question})
 		if err != nil {
+			state.dependencyFailure = "业务规则检索服务不可用，请检查 Python 检索服务及 NL2SQL_RETRIEVAL_URL 配置。"
 			return toolError("业务规则检索失败")
 		}
 		state.rulesRead = true
